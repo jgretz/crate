@@ -15,6 +15,7 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {createLink} from '../services';
 import {createLinkSchema, type CreateLinkFormData} from '../schemas';
 import type {CreateLinkInput} from '@crate/domain';
+import {colors} from '../theme';
 
 interface AddLinkFormProps {
   visible: boolean;
@@ -139,6 +140,7 @@ export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
               onChangeText={(value) => handleFieldChange('url', value)}
               onBlur={() => handleFieldBlur('url', formData.url)}
               placeholder='https://example.com'
+              placeholderTextColor={colors.mutedForeground}
               keyboardType='url'
               autoCapitalize='none'
               autoCorrect={false}
@@ -154,6 +156,7 @@ export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
               onChangeText={(value) => handleFieldChange('title', value)}
               onBlur={() => handleFieldBlur('title', formData.title)}
               placeholder='Title for this link'
+              placeholderTextColor={colors.mutedForeground}
             />
             {errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
           </View>
@@ -166,6 +169,7 @@ export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
               onChangeText={(value) => handleFieldChange('description', value)}
               onBlur={() => handleFieldBlur('description', formData.description || '')}
               placeholder='Description of this link'
+              placeholderTextColor={colors.mutedForeground}
               multiline
               numberOfLines={4}
               textAlignVertical='top'
@@ -181,33 +185,33 @@ export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: colors.border,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.foreground,
   },
   cancelButton: {
     fontSize: 16,
-    color: '#666',
+    color: colors.mutedForeground,
   },
   saveButton: {
     fontSize: 16,
-    color: '#0066cc',
+    color: colors.linkAccent,
     fontWeight: 'bold',
   },
   disabledButton: {
-    color: '#ccc',
+    color: colors.mutedForeground,
   },
   form: {
     flex: 1,
@@ -219,31 +223,33 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: colors.foreground,
     marginBottom: 8,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    backgroundColor: '#fff',
+    backgroundColor: colors.input,
+    color: colors.foreground,
   },
   textArea: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    backgroundColor: '#fff',
+    backgroundColor: colors.input,
+    color: colors.foreground,
     height: 100,
   },
   inputError: {
-    borderColor: '#ff6b6b',
+    borderColor: colors.destructive,
   },
   errorText: {
-    color: '#ff6b6b',
+    color: colors.destructive,
     fontSize: 14,
     marginTop: 4,
   },

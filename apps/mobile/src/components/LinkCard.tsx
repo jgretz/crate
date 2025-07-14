@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Alert, Linking} from 'react-native';
 import type {Link} from '@crate/domain';
+import {colors} from '../theme';
 
 interface LinkCardProps {
   link: Link;
@@ -53,18 +54,20 @@ export function LinkCard({link, onDelete}: LinkCardProps) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderRadius: 8,
     padding: 16,
     marginVertical: 8,
     marginHorizontal: 16,
-    shadowColor: '#000',
+    shadowColor: colors.shadowColor,
     shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 3,
     flexDirection: 'row',
     alignItems: 'flex-start',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   content: {
     flex: 1,
@@ -72,23 +75,23 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.foreground,
     marginBottom: 8,
   },
   description: {
     fontSize: 14,
-    color: '#666',
+    color: colors.mutedForeground,
     marginBottom: 8,
     lineHeight: 20,
   },
   url: {
     fontSize: 12,
-    color: '#0066cc',
+    color: colors.linkAccent,
     marginBottom: 4,
   },
   date: {
     fontSize: 12,
-    color: '#999',
+    color: colors.mutedForeground,
   },
   deleteButton: {
     padding: 8,
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     fontSize: 18,
-    color: '#ff6b6b',
+    color: colors.destructive,
     fontWeight: 'bold',
   },
 });

@@ -4,11 +4,12 @@ import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import {getLinks, deleteLink, type LinksResponse} from '../services';
 import type {Link} from '@crate/domain';
 import {LinkCard} from './LinkCard';
+import {colors} from '../theme';
 
 function LoadingState() {
   return (
     <View style={styles.centerContainer}>
-      <ActivityIndicator size='large' color='#0066cc' />
+      <ActivityIndicator size='large' color={colors.linkAccent} />
       <Text style={styles.loadingText}>Loading links...</Text>
     </View>
   );
@@ -91,23 +92,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: colors.background,
   },
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#666',
+    color: colors.mutedForeground,
   },
   errorText: {
     fontSize: 16,
-    color: '#ff6b6b',
+    color: colors.destructive,
     textAlign: 'center',
   },
   emptyText: {
     fontSize: 16,
-    color: '#999',
+    color: colors.mutedForeground,
     textAlign: 'center',
   },
   list: {
     flex: 1,
+    backgroundColor: colors.background,
   },
 });

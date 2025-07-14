@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, TouchableOpacity, SafeAreaView} from 'react-nati
 import {StatusBar} from 'expo-status-bar';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {LinkList, AddLinkForm} from './src/components';
+import {colors} from './src/theme';
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,7 @@ function MainApp() {
 
       <AddLinkForm visible={isFormVisible} onClose={() => setIsFormVisible(false)} />
 
-      <StatusBar style='auto' />
+      <StatusBar style='light' />
     </SafeAreaView>
   );
 }
@@ -38,30 +39,30 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: colors.card,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: colors.border,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.foreground,
   },
   addButton: {
-    backgroundColor: '#0066cc',
+    backgroundColor: colors.linkAccent,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
   },
   addButtonText: {
-    color: '#fff',
+    color: colors.background,
     fontSize: 16,
     fontWeight: '500',
   },
