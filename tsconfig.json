@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+
+    // Enable latest features
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
+
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+
+    // Import paths
+    "paths": {
+      "@crate/web/*": ["./apps/web/src/*"],
+
+      "@crate/domain": ["./packages/domain/src/index.ts"],
+      "@crate/domain-types": ["./packages/domain/src/types.ts"],
+      "@crate/iocdi": ["./packages/iocdi/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

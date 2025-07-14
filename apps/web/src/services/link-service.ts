@@ -1,0 +1,22 @@
+import {graphqlClient} from './graphql-client';
+import type {Link} from '@crate/domain-types';
+
+const GET_LINKS = `
+  query GetLinks {
+    links {
+      id
+      url
+      title
+      description
+      dateAdded
+    }
+  }
+`;
+
+export interface LinksResponse {
+  links: Link[];
+}
+
+export const getLinks = async (): Promise<LinksResponse> => {
+  return graphqlClient.request(GET_LINKS);
+};

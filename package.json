@@ -1,0 +1,31 @@
+{
+  "name": "crate",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --filter=@crate/api dev & bun run --filter=@crate/web dev",
+    "dev:api": "bun run --filter=@crate/api dev",
+    "dev:web": "bun run --filter=@crate/web dev",
+    "type-check": "bun run --filter=* type-check",
+    "lint": "bun run --filter=* lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "clean": "bun x -y rimraf -g **/bun.lock* **/node_modules"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.13",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
+    "@typescript-eslint/parser": "^8.37.0",
+    "eslint": "^9.31.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "bun@1.2.18",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}
