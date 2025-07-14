@@ -8,7 +8,7 @@ export const linkFieldResolver = InjectIn(
   function () {
     return {
       Link: {
-        id: function (link: Link): string {
+        _id: function (link: Link): string {
           return link._id?.toString() || '';
         },
         dateAdded: function (link: Link): string {

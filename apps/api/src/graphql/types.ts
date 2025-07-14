@@ -3,7 +3,7 @@
  */
 export const linkTypeDefs = `
   type Link {
-    id: ID!
+    _id: ID!
     url: String!
     title: String!
     description: String!

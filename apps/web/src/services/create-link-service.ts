@@ -4,7 +4,7 @@ import type {Link, CreateLinkInput} from '@crate/domain-types';
 const CREATE_LINK = `
   mutation CreateLink($input: CreateLinkInput!) {
     createLink(input: $input) {
-      id
+      _id
       url
       title
       description

@@ -4,7 +4,7 @@ import type {Link} from '@crate/domain-types';
 const GET_LINKS = `
   query GetLinks {
     links {
-      id
+      _id
       url
       title
       description
