@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {FlatList, View, Text, StyleSheet, ActivityIndicator, RefreshControl} from 'react-native';
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import {getLinks, deleteLink, type LinksResponse} from '../services';
 import type {Link} from '@crate/domain';
@@ -15,28 +15,60 @@ function LoadingState() {
   );
 }
 
-function ErrorState() {
+function ErrorState({isRefreshing, onRefresh}: {isRefreshing: boolean; onRefresh: () => void}) {
   return (
-    <View style={styles.centerContainer}>
-      <Text style={styles.errorText}>Failed to load links. Please try again.</Text>
-    </View>
+    <FlatList
+      data={[]}
+      renderItem={() => null}
+      style={styles.list}
+      contentContainerStyle={styles.centerContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          tintColor={colors.linkAccent}
+          colors={[colors.linkAccent]}
+          progressBackgroundColor={colors.card}
+        />
+      }
+      ListEmptyComponent={
+        <Text style={styles.errorText}>Failed to load links. Pull down to retry.</Text>
+      }
+    />
   );
 }
 
-function EmptyState() {
+function EmptyState({isRefreshing, onRefresh}: {isRefreshing: boolean; onRefresh: () => void}) {
   return (
-    <View style={styles.centerContainer}>
-      <Text style={styles.emptyText}>No links yet. Add your first link!</Text>
-    </View>
+    <FlatList
+      data={[]}
+      renderItem={() => null}
+      style={styles.list}
+      contentContainerStyle={styles.centerContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          tintColor={colors.linkAccent}
+          colors={[colors.linkAccent]}
+          progressBackgroundColor={colors.card}
+        />
+      }
+      ListEmptyComponent={
+        <Text style={styles.emptyText}>No links yet. Add your first link!</Text>
+      }
+    />
   );
 }
 
 interface LinksListProps {
   links: Link[];
   onDelete: (linkId: string) => void;
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
-function LinksList({links, onDelete}: LinksListProps) {
+function LinksList({links, onDelete, isRefreshing, onRefresh}: LinksListProps) {
   return (
     <FlatList
       data={links}
@@ -46,6 +78,15 @@ function LinksList({links, onDelete}: LinksListProps) {
       )}
       style={styles.list}
       showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          tintColor={colors.linkAccent}
+          colors={[colors.linkAccent]}
+          progressBackgroundColor={colors.card}
+        />
+      }
     />
   );
 }
@@ -53,7 +94,7 @@ function LinksList({links, onDelete}: LinksListProps) {
 export function LinkList() {
   const queryClient = useQueryClient();
 
-  const {data, isLoading, error} = useQuery<LinksResponse>({
+  const {data, isLoading, error, refetch, isFetching} = useQuery<LinksResponse>({
     queryKey: ['links'],
     queryFn: getLinks,
   });
@@ -69,21 +110,32 @@ export function LinkList() {
     deleteLinkMutation.mutate(linkId);
   };
 
+  const handleRefresh = () => {
+    refetch();
+  };
+
   if (isLoading) {
     return <LoadingState />;
   }
 
   if (error) {
-    return <ErrorState />;
+    return <ErrorState isRefreshing={isFetching} onRefresh={handleRefresh} />;
   }
 
   const links = data?.links || [];
 
   if (links.length === 0) {
-    return <EmptyState />;
+    return <EmptyState isRefreshing={isFetching} onRefresh={handleRefresh} />;
   }
 
-  return <LinksList links={links} onDelete={handleDelete} />;
+  return (
+    <LinksList 
+      links={links} 
+      onDelete={handleDelete} 
+      isRefreshing={isFetching} 
+      onRefresh={handleRefresh} 
+    />
+  );
 }
 
 const styles = StyleSheet.create({
