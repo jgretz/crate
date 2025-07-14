@@ -8,6 +8,7 @@ This is a monorepo using Bun workspaces with the following structure:
 
 - `apps/api/` - Hono-based GraphQL API server using Tigris DB
 - `apps/web/` - TanStack Start React application with Tailwind CSS
+- `apps/mobile/` - React Native app with Expo for cross-platform mobile
 - `packages/domain/` - Domain object logic and TypeScript types
 
 ## Development Commands
@@ -22,6 +23,7 @@ bun run dev
 # Individual app development
 bun run dev:api    # API server on port 3001
 bun run dev:web    # Web app development server
+bun run dev:mobile # Mobile app development server
 
 # Build all apps
 bun run build
@@ -61,12 +63,20 @@ bun run clean
 
 - Contains TypeScript interfaces and types used to access the domain
 
+### Mobile App (`apps/mobile/`)
+
+- **Framework**: React Native with Expo
+- **State Management**: TanStack Query for server state
+- **Validation**: Zod for form validation
+- **GraphQL Client**: Fetch API with custom GraphQL client
+
 ## Key Technologies
 
 - **Runtime**: Bun (package manager and runtime)
 - **Language**: TypeScript with strict configuration
 - **API**: Hono + GraphQL Yoga + Tigris DB
 - **Frontend**: React + TanStack Start + TanStack Query + Tailwind CSS
+- **Mobile**: React Native + Expo + TanStack Query
 - **Development**: Hot reloading enabled for both API and web
 
 ## Code Style
@@ -84,3 +94,4 @@ bun run clean
 
 - always run type-check after any changeset and ensure there are no type errors
 - always run bun test after any changeset and ensure all tests pass
+- be terse in the explanation of changes

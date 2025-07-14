@@ -35,7 +35,7 @@ export async function getLinks(): Promise<LinksResponse> {
   const query = `
     query GetLinks {
       links {
-        id
+        _id
         url
         title
         description
@@ -51,7 +51,7 @@ export async function createLink(input: CreateLinkInput): Promise<{createLink: L
   const mutation = `
     mutation CreateLink($input: CreateLinkInput!) {
       createLink(input: $input) {
-        id
+        _id
         url
         title
         description
