@@ -42,9 +42,7 @@ export function LinkCard({link, onDelete}: LinkCardProps) {
           </div>
 
           <p className='text-sm text-gray-500 truncate mt-1'>{link.url}</p>
-
           <p className='text-gray-700 mt-2 line-clamp-2'>{link.description}</p>
-
           <p className='text-xs text-gray-400 mt-3'>Added {formatDate(link.dateAdded)}</p>
         </div>
 

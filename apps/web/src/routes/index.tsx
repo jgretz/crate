@@ -8,14 +8,18 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   return (
-    <div className='max-w-4xl mx-auto p-6'>
-      <header className='mb-8'>
-        <h1 className='text-3xl font-bold text-gray-900 mb-2'>Crate</h1>
-        <p className='text-gray-600'>Save and organize your links</p>
-      </header>
+    <div className='max-w-[800px] mx-auto'>
+      <div className='flex flex-row items-center justify-between w-full py-5'>
+        <div className='flex-1'></div>
+        <div className='flex-1 text-center'>
+          <h1 className='text-3xl font-bold'>Crate</h1>
+        </div>
+        <div className='flex-1 flex justify-center items-right'>
+          <AddLinkForm />
+        </div>
+      </div>
 
       <div className='space-y-8'>
-        <AddLinkForm />
         <LinkList />
       </div>
     </div>

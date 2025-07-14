@@ -3,12 +3,23 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useForm} from '@tanstack/react-form';
 import {createLink} from '../services';
 import type {CreateLinkInput} from '@crate/domain-types';
+import {createLinkSchema, type CreateLinkFormData} from '../schemas';
 import {Button} from './ui/button';
-import {Input} from './ui/input';
-import {Label} from './ui/label';
-import {Textarea} from './ui/textarea';
+import {FormInput, FormTextArea} from './forms';
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from './ui/dialog';
 import {DialogDescription} from '@radix-ui/react-dialog';
+
+// Helper function to create TanStack Form validators from Zod schema
+function createZodValidator<T>(schema: any, field: keyof T) {
+  return ({value}: {value: any}) => {
+    const result = schema.safeParse({[field]: value});
+    if (!result.success) {
+      const fieldError = result.error.issues.find((issue) => issue.path[0] === field);
+      return fieldError?.message;
+    }
+    return undefined;
+  };
+}
 
 export function AddLinkForm() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,25 +39,35 @@ export function AddLinkForm() {
       url: '',
       title: '',
       description: '',
-    } as CreateLinkInput,
+    } as CreateLinkFormData,
     onSubmit: async ({value}) => {
-      createLinkMutation.mutate(value);
+      // Convert empty description to undefined for optional field
+      const formData = {
+        ...value,
+        description: value.description?.trim() || undefined,
+      };
+
+      // Validate the entire form with Zod before submission
+      const validationResult = createLinkSchema.safeParse(formData);
+      if (!validationResult.success) {
+        // This shouldn't happen if field validation is working correctly
+        console.error('Form validation failed:', validationResult.error);
+        return;
+      }
+      createLinkMutation.mutate(validationResult.data as CreateLinkInput);
     },
   });
 
   return (
-    <div className='bg-white rounded-lg border shadow-sm p-6'>
+    <div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <button
-            onClick={() => setIsOpen(true)}
-            className='w-full p-4 text-left text-gray-500 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 hover:text-gray-600 transition-colors'
-          >
-            + Add a new link
-          </button>
+          <Button className='rounded p-4' onClick={() => setIsOpen(true)}>
+            Add a new link
+          </Button>
         </DialogTrigger>
 
-        <DialogContent className='sm:max-w-md'>
+        <DialogContent className='p-6'>
           <DialogHeader>
             <DialogTitle>Add New Link</DialogTitle>
             <DialogDescription>Add a new link to your collection</DialogDescription>
@@ -58,101 +79,73 @@ export function AddLinkForm() {
               e.stopPropagation();
               form.handleSubmit();
             }}
-            className='space-y-4'
           >
             <form.Field
               name='url'
               validators={{
-                onChange: ({value}) =>
-                  !value
-                    ? 'URL is required'
-                    : !/^https?:\/\/.+/.test(value)
-                      ? 'Please enter a valid URL'
-                      : undefined,
+                onChange: createZodValidator<CreateLinkFormData>(createLinkSchema, 'url'),
               }}
             >
               {(field) => (
-                <div>
-                  <Label htmlFor={field.name}>URL *</Label>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    type='url'
-                    placeholder='https://example.com'
-                    autoFocus
-                  />
-                  {field.state.meta.errors ? (
-                    <p className='text-sm text-red-600 mt-1'>{field.state.meta.errors[0]}</p>
-                  ) : null}
-                </div>
+                <FormInput
+                  id={field.name}
+                  name={field.name}
+                  label='URL'
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={field.handleChange}
+                  error={field.state.meta.errors?.[0]}
+                  type='url'
+                  placeholder='https://example.com'
+                  autoFocus
+                  required
+                />
               )}
             </form.Field>
 
             <form.Field
               name='title'
               validators={{
-                onChange: ({value}) => (!value ? 'Title is required' : undefined),
+                onChange: createZodValidator<CreateLinkFormData>(createLinkSchema, 'title'),
               }}
             >
               {(field) => (
-                <div>
-                  <Label htmlFor={field.name}>Title *</Label>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder='Title for this link'
-                  />
-                  {field.state.meta.errors ? (
-                    <p className='text-sm text-red-600 mt-1'>{field.state.meta.errors[0]}</p>
-                  ) : null}
-                </div>
+                <FormInput
+                  id={field.name}
+                  name={field.name}
+                  label='Title'
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={field.handleChange}
+                  error={field.state.meta.errors?.[0]}
+                  placeholder='Title for this link'
+                  required
+                />
               )}
             </form.Field>
 
             <form.Field
               name='description'
               validators={{
-                onChange: ({value}) => (!value ? 'Description is required' : undefined),
+                onChange: createZodValidator<CreateLinkFormData>(createLinkSchema, 'description'),
               }}
             >
               {(field) => (
-                <div>
-                  <Label htmlFor={field.name}>Description *</Label>
-                  <Textarea
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder='Description of this link'
-                    rows={3}
-                  />
-                  {field.state.meta.errors ? (
-                    <p className='text-sm text-red-600 mt-1'>{field.state.meta.errors[0]}</p>
-                  ) : null}
-                </div>
+                <FormTextArea
+                  id={field.name}
+                  name={field.name}
+                  label='Description'
+                  value={field.state.value || ''}
+                  onBlur={field.handleBlur}
+                  onChange={field.handleChange}
+                  error={field.state.meta.errors?.[0]}
+                  placeholder='Description of this link'
+                  rows={3}
+                />
               )}
             </form.Field>
 
-            <div className='flex space-x-3 pt-2'>
-              <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
-                {([canSubmit, isSubmitting]) => (
-                  <Button
-                    type='submit'
-                    disabled={!canSubmit || createLinkMutation.isPending}
-                    className='flex-1'
-                  >
-                    {createLinkMutation.isPending || isSubmitting ? 'Adding...' : 'Add Link'}
-                  </Button>
-                )}
-              </form.Subscribe>
-
+            <div className='flex flex-row'>
               <Button
                 type='button'
                 variant='outline'
@@ -164,6 +157,18 @@ export function AddLinkForm() {
               >
                 Cancel
               </Button>
+              <div className='w-3'></div>
+              <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+                {([canSubmit, isSubmitting]) => (
+                  <Button
+                    type='submit'
+                    disabled={!canSubmit || createLinkMutation.isPending}
+                    className='flex-1'
+                  >
+                    {createLinkMutation.isPending || isSubmitting ? 'Adding...' : 'Add Link'}
+                  </Button>
+                )}
+              </form.Subscribe>
             </div>
 
             {createLinkMutation.error && (

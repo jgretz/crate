@@ -4,14 +4,14 @@ export interface Link {
   _id?: ObjectId;
   url: string;
   title: string;
-  description: string;
+  description?: string;
   dateAdded: Date;
 }
 
 export interface CreateLinkInput {
   url: string;
   title: string;
-  description: string;
+  description?: string;
 }
 
 export interface UpdateLinkInput {

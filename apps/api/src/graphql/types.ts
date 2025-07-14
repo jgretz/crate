@@ -3,17 +3,17 @@
  */
 export const linkTypeDefs = `
   type Link {
-    _id: ID!
+    id: ID!
     url: String!
     title: String!
-    description: String!
+    description: String
     dateAdded: String!
   }
 
   input CreateLinkInput {
     url: String!
     title: String!
-    description: String!
+    description: String
   }
 
   input UpdateLinkInput {

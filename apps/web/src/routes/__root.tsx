@@ -37,7 +37,7 @@ export default function Root() {
       <head>
         <HeadContent />
       </head>
-      <body className='min-h-screen bg-gray-50'>
+      <body className='min-h-screen'>
         <QueryClientProvider client={queryClient}>
           <Outlet />
           <ReactQueryDevtools />
