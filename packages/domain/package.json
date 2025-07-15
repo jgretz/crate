@@ -2,12 +2,10 @@
   "name": "@crate/domain",
   "version": "1.0.0",
   "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "mongodb": "^6.0.0",

@@ -27,6 +27,13 @@ export const Route = createRootRoute({
         title: 'Crate',
       },
     ],
+    links: [
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: 'favicon.svg',
+      },
+    ],
   }),
   component: Root,
 });

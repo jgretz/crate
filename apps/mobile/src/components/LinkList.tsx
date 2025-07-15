@@ -54,9 +54,7 @@ function EmptyState({isRefreshing, onRefresh}: {isRefreshing: boolean; onRefresh
           progressBackgroundColor={colors.card}
         />
       }
-      ListEmptyComponent={
-        <Text style={styles.emptyText}>No links yet. Add your first link!</Text>
-      }
+      ListEmptyComponent={<Text style={styles.emptyText}>No links yet. Add your first link!</Text>}
     />
   );
 }
@@ -129,11 +127,11 @@ export function LinkList() {
   }
 
   return (
-    <LinksList 
-      links={links} 
-      onDelete={handleDelete} 
-      isRefreshing={isFetching} 
-      onRefresh={handleRefresh} 
+    <LinksList
+      links={links}
+      onDelete={handleDelete}
+      isRefreshing={isFetching}
+      onRefresh={handleRefresh}
     />
   );
 }

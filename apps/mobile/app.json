@@ -1,29 +1,85 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Crate",
+    "slug": "crate-links",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
+    "scheme": "crate",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1a1a1a"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.crate.links",
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLName": "crate.links",
+            "CFBundleURLSchemes": ["crate"]
+          }
+        ],
+        "CFBundleDocumentTypes": [
+          {
+            "CFBundleTypeName": "URL",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["public.url"],
+            "LSHandlerRank": "Alternate"
+          },
+          {
+            "CFBundleTypeName": "Text",
+            "CFBundleTypeRole": "Viewer", 
+            "LSItemContentTypes": ["public.plain-text"],
+            "LSHandlerRank": "Alternate"
+          }
+        ],
+        "NSUserActivityTypes": [
+          "NSUserActivityTypeBrowsingWeb"
+        ],
+        "LSSupportsOpeningDocumentsInPlace": false,
+        "NSPhotoLibraryUsageDescription": "This app needs access to photo library to share images",
+        "NSCameraUsageDescription": "This app needs access to camera to share images"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1a1a1a"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.crate.links",
+      "intentFilters": [
+        {
+          "action": "android.intent.action.SEND",
+          "category": ["android.intent.category.DEFAULT"],
+          "data": {
+            "mimeType": "text/plain"
+          }
+        },
+        {
+          "action": "android.intent.action.SEND",
+          "category": ["android.intent.category.DEFAULT"],
+          "data": {
+            "mimeType": "text/*"
+          }
+        }
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "root": "./src/app"
+        }
+      ]
+    ]
   }
 }
