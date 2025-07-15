@@ -13,37 +13,31 @@
       "resizeMode": "contain",
       "backgroundColor": "#1a1a1a"
     },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "root": "./src/app"
+        }
+      ],
+      [
+        "expo-share-extension",
+        {
+          "activationRules": [
+            {
+              "type": "url",
+              "max": 1
+            },
+            {
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.crate.links",
-      "infoPlist": {
-        "CFBundleURLTypes": [
-          {
-            "CFBundleURLName": "crate.links",
-            "CFBundleURLSchemes": ["crate"]
-          }
-        ],
-        "CFBundleDocumentTypes": [
-          {
-            "CFBundleTypeName": "URL",
-            "CFBundleTypeRole": "Viewer",
-            "LSItemContentTypes": ["public.url"],
-            "LSHandlerRank": "Alternate"
-          },
-          {
-            "CFBundleTypeName": "Text",
-            "CFBundleTypeRole": "Viewer", 
-            "LSItemContentTypes": ["public.plain-text"],
-            "LSHandlerRank": "Alternate"
-          }
-        ],
-        "NSUserActivityTypes": [
-          "NSUserActivityTypeBrowsingWeb"
-        ],
-        "LSSupportsOpeningDocumentsInPlace": false,
-        "NSPhotoLibraryUsageDescription": "This app needs access to photo library to share images",
-        "NSCameraUsageDescription": "This app needs access to camera to share images"
-      }
+      "bundleIdentifier": "com.crate.links"
     },
     "android": {
       "adaptiveIcon": {
@@ -72,14 +66,6 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    },
-    "plugins": [
-      [
-        "expo-router",
-        {
-          "root": "./src/app"
-        }
-      ]
-    ]
+    }
   }
 }

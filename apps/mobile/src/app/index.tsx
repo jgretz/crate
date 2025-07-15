@@ -1,49 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
+import {useLocalSearchParams} from 'expo-router';
 import {LinkList, AddLinkForm, SharedLinkProcessor} from '../components';
 import {colors} from '../theme';
-import {shareHandler, receiveSharingHandler, type SharedLinkData, type ProcessedSharedData} from '../services';
+import {shareHandler, type SharedLinkData} from '../services';
 
 export default function HomeScreen() {
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [sharedLinkData, setSharedLinkData] = useState<SharedLinkData | ProcessedSharedData | null>(null);
+  const [sharedLinkData, setSharedLinkData] = useState<SharedLinkData | null>(null);
   const [isSharedLinkVisible, setIsSharedLinkVisible] = useState(false);
 
-  useEffect(() => {
-    // Initialize both share handlers
-    shareHandler.initialize();
-    receiveSharingHandler.initialize();
+  // Get URL parameters from share extension
+  const {url, text} = useLocalSearchParams<{url?: string; text?: string}>();
 
-    // Listen for shared URLs from the original handler (deep links)
+  useEffect(() => {
+    // Initialize share handler for deep links
+    shareHandler.initialize();
+
+    // Listen for shared URLs from deep links
     const removeShareListener = shareHandler.addListener((data: SharedLinkData) => {
       setSharedLinkData(data);
       setIsSharedLinkVisible(true);
     });
 
-    // Listen for shared content from the receive sharing handler (share sheet)
-    const removeReceiveListener = receiveSharingHandler.addListener((data: ProcessedSharedData) => {
-      setSharedLinkData(data);
+    // Handle URL parameters from share extension
+    if (url) {
+      const shareData: SharedLinkData = {
+        url: decodeURIComponent(url),
+        title: text ? decodeURIComponent(text) : undefined,
+      };
+      setSharedLinkData(shareData);
       setIsSharedLinkVisible(true);
-    });
+    }
 
     // Cleanup on unmount
     return () => {
       removeShareListener();
-      removeReceiveListener();
       shareHandler.cleanup();
-      receiveSharingHandler.cleanup();
     };
-  }, []);
+  }, [url, text]);
 
   const handleCloseSharedLink = () => {
     setIsSharedLinkVisible(false);
     setSharedLinkData(null);
-  };
-
-  // Development helper - simulate sharing for testing
-  const handleTestShare = () => {
-    const testUrl = 'https://github.com';
-    shareHandler.handleSharedText(`Check out this link: ${testUrl}`);
   };
 
   return (
@@ -51,11 +50,6 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Crate</Text>
         <View style={styles.headerButtons}>
-          {__DEV__ && (
-            <TouchableOpacity style={styles.testButton} onPress={handleTestShare}>
-              <Text style={styles.testButtonText}>Test Share</Text>
-            </TouchableOpacity>
-          )}
           <TouchableOpacity style={styles.addButton} onPress={() => setIsFormVisible(true)}>
             <Text style={styles.addButtonText}>+ Add Link</Text>
           </TouchableOpacity>

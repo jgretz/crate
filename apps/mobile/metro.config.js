@@ -1,4 +1,5 @@
 const {getDefaultConfig} = require('expo/metro-config');
+const {withShareExtension} = require('expo-share-extension/metro');
 const path = require('path');
 
 const config = getDefaultConfig(__dirname);
@@ -19,4 +20,4 @@ config.resolver.alias = {
   '@crate/domain': path.resolve(workspaceRoot, 'packages/domain/src'),
 };
 
-module.exports = config;
+module.exports = withShareExtension(config);
