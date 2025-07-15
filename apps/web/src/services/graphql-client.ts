@@ -1,8 +1,4 @@
 import {GraphQLClient} from 'graphql-request';
+import {config} from '../config';
 
-const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://crate-api.fly.dev/graphql'
-    : 'http://localhost:3001/graphql';
-
-export const graphqlClient = new GraphQLClient(API_URL);
+export const graphqlClient = new GraphQLClient(config.apiUrl);

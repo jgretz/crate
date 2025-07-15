@@ -66,6 +66,9 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
+    },
+    "extra": {
+      "apiUrl": null
     }
   }
 }

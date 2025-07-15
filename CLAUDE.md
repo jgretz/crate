@@ -95,3 +95,4 @@ bun run clean
 - always run type-check after any changeset and ensure there are no type errors
 - always run bun test after any changeset and ensure all tests pass
 - be terse in the explanation of changes
+- do not create md files explaining what you did unless explicitly directed

@@ -1,13 +1,12 @@
 import type {Link, CreateLinkInput} from '@crate/domain';
-
-const API_URL = 'http://localhost:3001/graphql';
+import {config} from '../config';
 
 export interface LinksResponse {
   links: Link[];
 }
 
 async function graphqlRequest(query: string, variables?: any) {
-  const response = await fetch(API_URL, {
+  const response = await fetch(config.apiUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
