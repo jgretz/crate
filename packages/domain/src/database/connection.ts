@@ -32,7 +32,7 @@ export async function initializeDatabase(config: DatabaseConfig = {}): Promise<v
 
     console.log(`Connected to MongoDB database: ${databaseName}`);
   } catch (error) {
-    console.error('Failed to connect to MongoDB:', error.message);
+    console.error('Failed to connect to MongoDB:', error instanceof Error ? error.message : String(error));
     throw error;
   }
 }

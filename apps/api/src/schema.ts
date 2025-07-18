@@ -13,6 +13,8 @@ import {
   deleteLinkTypeDef,
   deleteLinkResolver,
   linkFieldResolver,
+  loginTypeDef,
+  loginResolver,
 } from './graphql';
 
 /**
@@ -39,6 +41,7 @@ export const typeDefs = [
   createLinkTypeDef,
   updateLinkTypeDef,
   deleteLinkTypeDef,
+  loginTypeDef,
 ].join('\n');
 
 /**
@@ -52,6 +55,7 @@ export const createResolvers = InjectIn(
     const updateLinkResolvers = updateLinkResolver();
     const deleteLinkResolvers = deleteLinkResolver();
     const linkFieldResolvers = linkFieldResolver();
+    const loginResolvers = loginResolver();
 
     return {
       Query: {
@@ -62,6 +66,7 @@ export const createResolvers = InjectIn(
         ...createLinkResolvers.Mutation,
         ...updateLinkResolvers.Mutation,
         ...deleteLinkResolvers.Mutation,
+        ...loginResolvers.Mutation,
       },
       Link: {
         ...linkFieldResolvers.Link,
