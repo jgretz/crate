@@ -2,6 +2,7 @@ import {createRootRoute, Outlet, HeadContent, Scripts} from '@tanstack/react-rou
 import {TanStackRouterDevtools} from '@tanstack/react-router-devtools';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+import {RootErrorComponent} from '../components/RootErrorComponent';
 
 import '../globals.css';
 
@@ -36,6 +37,7 @@ export const Route = createRootRoute({
     ],
   }),
   component: Root,
+  errorComponent: RootErrorComponent,
 });
 
 export default function Root() {

@@ -25,7 +25,7 @@ export function LoginForm() {
     mutationFn: login,
     onSuccess: (data) => {
       setAuthToken(data.token);
-      navigate({to: '/'});
+      navigate({to: '/list'});
     },
   });
 

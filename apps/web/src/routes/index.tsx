@@ -1,26 +1,23 @@
-import {createFileRoute} from '@tanstack/react-router';
-import {LinkList} from '../../src/components/LinkList';
-import {AddLinkForm} from '../../src/components/AddLinkForm';
+import {createFileRoute, Link} from '@tanstack/react-router';
+import {Button} from '../components/ui/button';
 
 export const Route = createFileRoute('/')({
-  component: Home,
+  component: Landing,
 });
 
-function Home() {
+function Landing() {
   return (
-    <div className='max-w-[800px] mx-auto'>
-      <div className='flex flex-row items-center justify-between w-full py-5'>
-        <div className='flex-1'></div>
-        <div className='flex-1 text-center'>
-          <h1 className='text-3xl font-bold'>Crate</h1>
-        </div>
-        <div className='flex-1 flex justify-center items-right'>
-          <AddLinkForm />
-        </div>
-      </div>
-
-      <div className='space-y-8'>
-        <LinkList />
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="max-w-[800px] mx-auto w-full px-4 text-center">
+        <h1 className="text-3xl font-bold mb-6">Crate</h1>
+        <p className="text-gray-600 mb-8 text-lg">
+          Organize and manage your links in one place
+        </p>
+        <Link to="/login">
+          <Button size="lg" className="px-8 py-3">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </div>
   );
