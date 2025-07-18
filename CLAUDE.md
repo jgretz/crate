@@ -89,6 +89,7 @@ bun run clean
 - Destructure imports when possible (eg. import { foo } from 'bar')
 - Favor functional style over object oriented over procedural
 - Prefer function() syntax to () =>
+- Only use comments to explain the why something happens and be terse - no "marking comments"
 
 ## Workflow
 

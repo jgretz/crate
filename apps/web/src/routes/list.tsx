@@ -1,19 +1,10 @@
-import {createFileRoute, redirect} from '@tanstack/react-router';
+import {createFileRoute} from '@tanstack/react-router';
 import {LinkList} from '../components/LinkList';
 import {AddLinkForm} from '../components/AddLinkForm';
-import {isAuthenticated} from '../services/auth-service';
+import {requireAuth} from '../services/auth/requireAuth';
 
 export const Route = createFileRoute('/list')({
-  beforeLoad: ({location}) => {
-    if (!isAuthenticated()) {
-      throw redirect({
-        to: '/login',
-        search: {
-          redirect: location.href,
-        },
-      });
-    }
-  },
+  beforeLoad: requireAuth,
   component: List,
 });
 

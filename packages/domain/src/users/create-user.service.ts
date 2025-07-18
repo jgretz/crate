@@ -1,60 +1,64 @@
-import {InjectIn} from '@crate/iocdi';
-import {createUser, findUserById, findUserByEmail} from './repository';
+import {getUsersCollection} from './repository';
+import {ObjectId} from 'mongodb';
 import type {User, CreateUserInput} from '../types';
+import {authService} from '@crate/domain';
 
-/**
- * Service function to create a new user with validation
- */
-export const createUserService = InjectIn(
-  function () {
-    return async function (input: CreateUserInput): Promise<User> {
-      // Business logic validation
-      if (!input.email.trim()) {
-        throw new Error('Email cannot be empty');
-      }
+export async function createUserService(input: CreateUserInput): Promise<User> {
+  if (!input.email.trim()) {
+    throw new Error('Email cannot be empty');
+  }
 
-      if (!input.name.trim()) {
-        throw new Error('Name cannot be empty');
-      }
+  if (!input.name.trim()) {
+    throw new Error('Name cannot be empty');
+  }
 
-      // Basic email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(input.email)) {
-        throw new Error('Invalid email format');
-      }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(input.email)) {
+    throw new Error('Invalid email format');
+  }
 
-      // Check if user with email already exists
-      const existingUser = await findUserByEmail(input.email);
-      if (existingUser) {
-        throw new Error('User with this email already exists');
-      }
+  const existingUser = await findUserByEmail(input.email);
+  if (existingUser) {
+    throw new Error('User with this email already exists');
+  }
 
-      return await createUser(input);
-    };
-  },
-  {callbackName: 'createUserService'},
-);
+  return await createUser(input);
+}
 
-/**
- * Service function to get a user by ID
- */
-export const getUserByIdService = InjectIn(
-  function () {
-    return async function (id: string): Promise<User | null> {
-      return await findUserById(id);
-    };
-  },
-  {callbackName: 'getUserByIdService'},
-);
+export async function getUserByIdService(id: string): Promise<User | null> {
+  return await findUserById(id);
+}
 
-/**
- * Service function to get a user by email
- */
-export const getUserByEmailService = InjectIn(
-  function () {
-    return async function (email: string): Promise<User | null> {
-      return await findUserByEmail(email);
-    };
-  },
-  {callbackName: 'getUserByEmailService'},
-);
+export async function getUserByEmailService(email: string): Promise<User | null> {
+  return await findUserByEmail(email);
+}
+
+async function createUser(input: CreateUserInput): Promise<User> {
+  const collection = getUsersCollection();
+
+  const now = new Date();
+  const user: Omit<User, '_id'> = {
+    email: input.email,
+    name: input.name,
+    password: await authService.hashPassword(input.password),
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  const result = await collection.insertOne(user as User);
+  return {...user, _id: result.insertedId};
+}
+
+async function findUserById(id: string): Promise<User | null> {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const collection = getUsersCollection();
+  return await collection.findOne({_id: new ObjectId(id)});
+}
+
+async function findUserByEmail(email: string): Promise<User | null> {
+  const collection = getUsersCollection();
+  return await collection.findOne({email});
+}

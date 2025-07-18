@@ -1,4 +1,3 @@
-import {InjectIn} from '@crate/iocdi';
 import {authService} from '@crate/domain';
 
 export const loginTypeDef = `
@@ -25,21 +24,16 @@ export const loginTypeDef = `
   }
 `;
 
-export const loginResolver = InjectIn(
-  function () {
-    const auth = authService();
-
-    return {
-      Mutation: {
-        async login(_: any, {input}: {input: {email: string; password: string}}) {
-          const result = await auth.login(input);
-          if (!result) {
-            throw new Error('Invalid email or password');
-          }
-          return result;
-        },
+export function loginResolver() {
+  return {
+    Mutation: {
+      async login(_: any, {input}: {input: {email: string; password: string}}) {
+        const result = await authService.login(input);
+        if (!result) {
+          throw new Error('Invalid email or password');
+        }
+        return result;
       },
-    };
-  },
-  {callbackName: 'loginResolver'},
-);
+    },
+  };
+}

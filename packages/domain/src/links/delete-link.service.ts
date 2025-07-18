@@ -1,14 +1,16 @@
-import {InjectIn} from '@crate/iocdi';
-import {deleteLink} from './repository';
+import {getLinksCollection} from './repository';
+import {ObjectId} from 'mongodb';
 
-/**
- * Service function to delete a link
- */
-export const deleteLinkService = InjectIn(
-  function () {
-    return async function (id: string): Promise<boolean> {
-      return await deleteLink(id);
-    };
-  },
-  {callbackName: 'deleteLinkService'},
-);
+export async function deleteLinkService(id: string): Promise<boolean> {
+  return await deleteLink(id);
+}
+
+async function deleteLink(id: string): Promise<boolean> {
+  if (!ObjectId.isValid(id)) {
+    return false;
+  }
+
+  const collection = getLinksCollection();
+  const result = await collection.deleteOne({_id: new ObjectId(id)});
+  return result.deletedCount === 1;
+}

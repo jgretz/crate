@@ -1,14 +1,16 @@
-import {InjectIn} from '@crate/iocdi';
-import {deleteUser} from './repository';
+import {getUsersCollection} from './repository';
+import {ObjectId} from 'mongodb';
 
-/**
- * Service function to delete a user
- */
-export const deleteUserService = InjectIn(
-  function () {
-    return async function (id: string): Promise<boolean> {
-      return await deleteUser(id);
-    };
-  },
-  {callbackName: 'deleteUserService'},
-);
+export async function deleteUserService(id: string): Promise<boolean> {
+  return await deleteUser(id);
+}
+
+async function deleteUser(id: string): Promise<boolean> {
+  if (!ObjectId.isValid(id)) {
+    return false;
+  }
+
+  const collection = getUsersCollection();
+  const result = await collection.deleteOne({_id: new ObjectId(id)});
+  return result.deletedCount === 1;
+}

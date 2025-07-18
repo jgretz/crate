@@ -15,6 +15,14 @@ import {
   linkFieldResolver,
   loginTypeDef,
   loginResolver,
+  getUsersTypeDef,
+  getUsersResolver,
+  createUserTypeDef,
+  createUserResolver,
+  updateUserTypeDef,
+  updateUserResolver,
+  deleteUserTypeDef,
+  deleteUserResolver,
 } from './graphql';
 
 /**
@@ -42,6 +50,10 @@ export const typeDefs = [
   updateLinkTypeDef,
   deleteLinkTypeDef,
   loginTypeDef,
+  getUsersTypeDef,
+  createUserTypeDef,
+  updateUserTypeDef,
+  deleteUserTypeDef,
 ].join('\n');
 
 /**
@@ -56,17 +68,25 @@ export const createResolvers = InjectIn(
     const deleteLinkResolvers = deleteLinkResolver();
     const linkFieldResolvers = linkFieldResolver();
     const loginResolvers = loginResolver();
+    const getUsersResolvers = getUsersResolver();
+    const createUserResolvers = createUserResolver();
+    const updateUserResolvers = updateUserResolver();
+    const deleteUserResolvers = deleteUserResolver();
 
     return {
       Query: {
         ...getAllLinksResolvers.Query,
         ...getLinkByIdResolvers.Query,
+        ...getUsersResolvers.Query,
       },
       Mutation: {
         ...createLinkResolvers.Mutation,
         ...updateLinkResolvers.Mutation,
         ...deleteLinkResolvers.Mutation,
         ...loginResolvers.Mutation,
+        ...createUserResolvers.Mutation,
+        ...updateUserResolvers.Mutation,
+        ...deleteUserResolvers.Mutation,
       },
       Link: {
         ...linkFieldResolvers.Link,
