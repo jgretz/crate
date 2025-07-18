@@ -1,4 +1,5 @@
 import {deleteLinkService} from '@crate/domain';
+import {requireAuth, type AuthContext} from '../../auth/context';
 
 export const deleteLinkTypeDef = `
   extend type Mutation {
@@ -9,8 +10,9 @@ export const deleteLinkTypeDef = `
 export function deleteLinkResolver() {
   return {
     Mutation: {
-      deleteLink: async function (_: unknown, {id}: {id: string}): Promise<boolean> {
-        return await deleteLinkService(id);
+      deleteLink: async function (_: unknown, {id}: {id: string}, context: AuthContext): Promise<boolean> {
+        const userId = requireAuth(context);
+        return await deleteLinkService(id, userId);
       },
     },
   };

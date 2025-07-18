@@ -3,7 +3,7 @@ import {isValidUrl} from '../utils';
 import {ObjectId} from 'mongodb';
 import type {Link, UpdateLinkInput} from '../types';
 
-export async function updateLinkService(id: string, input: UpdateLinkInput): Promise<Link | null> {
+export async function updateLinkService(id: string, input: UpdateLinkInput, userId: string): Promise<Link | null> {
   if (input.url && !isValidUrl(input.url)) {
     throw new Error('Invalid URL provided');
   }
@@ -12,10 +12,14 @@ export async function updateLinkService(id: string, input: UpdateLinkInput): Pro
     throw new Error('Title cannot be empty');
   }
 
-  return await updateLink(id, input);
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
+  return await updateLink(id, input, userId);
 }
 
-async function updateLink(id: string, input: UpdateLinkInput): Promise<Link | null> {
+async function updateLink(id: string, input: UpdateLinkInput, userId: string): Promise<Link | null> {
   if (!ObjectId.isValid(id)) {
     return null;
   }
@@ -28,7 +32,7 @@ async function updateLink(id: string, input: UpdateLinkInput): Promise<Link | nu
   if (input.description !== undefined) updateDoc.description = input.description;
 
   const result = await collection.findOneAndUpdate(
-    {_id: new ObjectId(id)},
+    {_id: new ObjectId(id), userId: new ObjectId(userId)},
     {$set: updateDoc},
     {returnDocument: 'after'},
   );

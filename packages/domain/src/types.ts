@@ -6,6 +6,7 @@ export interface Link {
   title: string;
   description?: string;
   dateAdded: Date;
+  userId: ObjectId;
 }
 
 export interface CreateLinkInput {
@@ -21,8 +22,9 @@ export interface UpdateLinkInput {
 }
 
 export interface LinkRepository {
-  create(input: CreateLinkInput): Promise<Link>;
+  create(input: CreateLinkInput, userId: string): Promise<Link>;
   findById(id: string): Promise<Link | null>;
+  findAllByUser(userId: string): Promise<Link[]>;
   findAll(): Promise<Link[]>;
   update(id: string, input: UpdateLinkInput): Promise<Link | null>;
   delete(id: string): Promise<boolean>;

@@ -1,5 +1,6 @@
 import type {Link, UpdateLinkInput} from '@crate/domain';
 import {updateLinkService} from '@crate/domain';
+import {requireAuth, type AuthContext} from '../../auth/context';
 
 export const updateLinkTypeDef = `
   extend type Mutation {
@@ -13,10 +14,12 @@ export function updateLinkResolver() {
       updateLink: async function (
         _: unknown,
         {id, input}: {id: string; input: UpdateLinkInput},
+        context: AuthContext,
       ): Promise<Link> {
-        const updatedLink = await updateLinkService(id, input);
+        const userId = requireAuth(context);
+        const updatedLink = await updateLinkService(id, input, userId);
         if (!updatedLink) {
-          throw new Error('Link not found');
+          throw new Error('Link not found or not authorized');
         }
         return updatedLink;
       },

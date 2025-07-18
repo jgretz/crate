@@ -2,6 +2,7 @@ import {Hono} from 'hono';
 import {createYoga} from 'graphql-yoga';
 import {initializeDomain} from '@crate/domain';
 import {createSchema} from './schema';
+import {getAuthContext} from './auth/context';
 
 const app = new Hono();
 
@@ -18,6 +19,9 @@ const schema = createSchema();
 
 const yoga = createYoga({
   schema,
+  context: ({request}) => {
+    return getAuthContext(request);
+  },
 });
 
 app.use('/graphql', async (c) => {

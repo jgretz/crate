@@ -1,5 +1,6 @@
 import type {Link, CreateLinkInput} from '@crate/domain';
 import {createLinkService} from '@crate/domain';
+import {requireAuth, type AuthContext} from '../../auth/context';
 
 export const createLinkTypeDef = `
   extend type Mutation {
@@ -10,8 +11,9 @@ export const createLinkTypeDef = `
 export function createLinkResolver() {
   return {
     Mutation: {
-      createLink: async function (_: unknown, {input}: {input: CreateLinkInput}): Promise<Link> {
-        return await createLinkService(input);
+      createLink: async function (_: unknown, {input}: {input: CreateLinkInput}, context: AuthContext): Promise<Link> {
+        const userId = requireAuth(context);
+        return await createLinkService(input, userId);
       },
     },
   };
