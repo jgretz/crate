@@ -7,17 +7,17 @@ export interface AuthContext {
 
 export function getAuthContext(request: Request): AuthContext {
   const authHeader = request.headers.get('Authorization');
-  
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return {};
   }
 
   const token = authHeader.slice(7);
-  
+
   try {
-    const jwtSecret = process.env.JWT_SECRET || 'default-secret';
+    const jwtSecret = process.env.JWT_SECRET;
     const decoded = jwt.verify(token, jwtSecret) as any;
-    
+
     return {
       userId: decoded.userId,
       email: decoded.email,

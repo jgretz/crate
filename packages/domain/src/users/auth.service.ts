@@ -19,7 +19,7 @@ async function login(input: LoginInput): Promise<AuthResponse | null> {
     return null;
   }
 
-  const jwtSecret = process.env.JWT_SECRET || 'default-secret';
+  const jwtSecret = process.env.JWT_SECRET;
   const token = jwt.sign({userId: user._id?.toString(), email: user.email}, jwtSecret, {
     expiresIn: '7d',
   });

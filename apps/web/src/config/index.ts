@@ -31,7 +31,6 @@ function getApiUrl(): string {
   // Use pattern matching for environment scenarios
   return match(nodeEnv)
     .with('development', () => 'http://localhost:3001/graphql')
-    .with('production', () => 'https://crate-api.fly.dev/graphql')
     .otherwise(() => {
       throw new Error(
         `API_URL must be configured via VITE_API_URL environment variable for environment: ${nodeEnv}`,
