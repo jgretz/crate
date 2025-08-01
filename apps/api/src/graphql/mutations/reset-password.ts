@@ -1,5 +1,4 @@
-import {InjectIn} from '@stashl/iocdi';
-import {createPasswordResetService} from '@stashl/domain';
+import {resetPassword} from '@stashl/domain';
 
 export const resetPasswordTypeDef = `
   type ResetPasswordResponse {
@@ -12,45 +11,38 @@ export const resetPasswordTypeDef = `
   }
 `;
 
-export const resetPasswordResolver = InjectIn(
-  function () {
-    return function () {
-      const passwordResetService = createPasswordResetService();
+export function resetPasswordResolver() {
+  return {
+    Mutation: {
+      async resetPassword(
+        _: any,
+        {token, email, newPassword}: {token: string; email: string; newPassword: string},
+      ) {
+        if (!newPassword || newPassword.length < 6) {
+          return {
+            success: false,
+            message: 'Password must be at least 6 characters long',
+          };
+        }
 
-      return {
-        Mutation: {
-          async resetPassword(
-            _: any,
-            {token, email, newPassword}: {token: string; email: string; newPassword: string},
-          ) {
-            if (!newPassword || newPassword.length < 6) {
-              return {
-                success: false,
-                message: 'Password must be at least 6 characters long',
-              };
-            }
+        const result = await resetPassword({
+          token,
+          email,
+          newPassword,
+        });
 
-            const result = await passwordResetService.resetPassword({
-              token,
-              email,
-              newPassword,
-            });
+        if (result.success) {
+          return {
+            success: true,
+            message: 'Password has been reset successfully',
+          };
+        }
 
-            if (result.success) {
-              return {
-                success: true,
-                message: 'Password has been reset successfully',
-              };
-            }
-
-            return {
-              success: false,
-              message: result.error || 'Failed to reset password',
-            };
-          },
-        },
-      };
-    };
-  },
-  {callbackName: 'resetPasswordResolver'},
-);
+        return {
+          success: false,
+          message: result.error || 'Failed to reset password',
+        };
+      },
+    },
+  };
+}

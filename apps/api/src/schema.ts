@@ -1,5 +1,4 @@
 import {makeExecutableSchema} from '@graphql-tools/schema';
-import {InjectIn} from '@stashl/iocdi';
 import {
   linkTypeDefs,
   getAllLinksTypeDef,
@@ -68,62 +67,54 @@ export const typeDefs = [
 /**
  * Combined GraphQL resolvers
  */
-export const createResolvers = InjectIn(
-  function () {
-    const getAllLinksResolvers = getAllLinksResolver();
-    const getLinkByIdResolvers = getLinkByIdResolver();
-    const createLinkResolvers = createLinkResolver();
-    const updateLinkResolvers = updateLinkResolver();
-    const deleteLinkResolvers = deleteLinkResolver();
-    const linkFieldResolvers = linkFieldResolver();
-    const loginResolvers = loginResolver();
-    const getUsersResolvers = getUsersResolver();
-    const createUserResolvers = createUserResolver();
-    const updateUserResolvers = updateUserResolver();
-    const deleteUserResolvers = deleteUserResolver();
-    const requestPasswordResetResolvers = requestPasswordResetResolver();
-    const resetPasswordResolvers = resetPasswordResolver();
-    const validateResetTokenResolvers = validateResetTokenResolver();
+export function createResolvers() {
+  const getAllLinksResolvers = getAllLinksResolver();
+  const getLinkByIdResolvers = getLinkByIdResolver();
+  const createLinkResolvers = createLinkResolver();
+  const updateLinkResolvers = updateLinkResolver();
+  const deleteLinkResolvers = deleteLinkResolver();
+  const linkFieldResolvers = linkFieldResolver();
+  const loginResolvers = loginResolver();
+  const getUsersResolvers = getUsersResolver();
+  const createUserResolvers = createUserResolver();
+  const updateUserResolvers = updateUserResolver();
+  const deleteUserResolvers = deleteUserResolver();
+  const requestPasswordResetResolvers = requestPasswordResetResolver();
+  const resetPasswordResolvers = resetPasswordResolver();
+  const validateResetTokenResolvers = validateResetTokenResolver();
 
-    return {
-      Query: {
-        ...getAllLinksResolvers.Query,
-        ...getLinkByIdResolvers.Query,
-        ...getUsersResolvers.Query,
-        ...validateResetTokenResolvers.Query,
-      },
-      Mutation: {
-        ...createLinkResolvers.Mutation,
-        ...updateLinkResolvers.Mutation,
-        ...deleteLinkResolvers.Mutation,
-        ...loginResolvers.Mutation,
-        ...createUserResolvers.Mutation,
-        ...updateUserResolvers.Mutation,
-        ...deleteUserResolvers.Mutation,
-        ...requestPasswordResetResolvers.Mutation,
-        ...resetPasswordResolvers.Mutation,
-      },
-      Link: {
-        ...linkFieldResolvers.Link,
-      },
-    };
-  },
-  {callbackName: 'createResolvers'},
-);
+  return {
+    Query: {
+      ...getAllLinksResolvers.Query,
+      ...getLinkByIdResolvers.Query,
+      ...getUsersResolvers.Query,
+      ...validateResetTokenResolvers.Query,
+    },
+    Mutation: {
+      ...createLinkResolvers.Mutation,
+      ...updateLinkResolvers.Mutation,
+      ...deleteLinkResolvers.Mutation,
+      ...loginResolvers.Mutation,
+      ...createUserResolvers.Mutation,
+      ...updateUserResolvers.Mutation,
+      ...deleteUserResolvers.Mutation,
+      ...requestPasswordResetResolvers.Mutation,
+      ...resetPasswordResolvers.Mutation,
+    },
+    Link: {
+      ...linkFieldResolvers.Link,
+    },
+  };
+}
 
 /**
  * Create the complete GraphQL schema
  */
-export const createSchema = InjectIn(
-  function () {
-    return function () {
-      const resolvers = createResolvers();
+export function createSchema() {
+  const resolvers = createResolvers();
 
-      return makeExecutableSchema({
-        typeDefs,
-        resolvers,
-      });
-    };
-  },
-  {callbackName: 'createSchema'},
-);
+  return makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  });
+}

@@ -1,5 +1,4 @@
-import {InjectIn} from '@stashl/iocdi';
-import {createPasswordResetService} from '@stashl/domain';
+import {validateResetToken} from '@stashl/domain';
 
 export const validateResetTokenTypeDef = `
   type ValidateResetTokenResponse {
@@ -12,24 +11,17 @@ export const validateResetTokenTypeDef = `
   }
 `;
 
-export const validateResetTokenResolver = InjectIn(
-  function () {
-    return function () {
-      const passwordResetService = createPasswordResetService();
+export function validateResetTokenResolver() {
+  return {
+    Query: {
+      async validateResetToken(_: any, {token, email}: {token: string; email: string}) {
+        const result = await validateResetToken(token, email);
 
-      return {
-        Query: {
-          async validateResetToken(_: any, {token, email}: {token: string; email: string}) {
-            const result = await passwordResetService.validateResetToken(token, email);
-
-            return {
-              valid: result.valid,
-              email: result.user?.email,
-            };
-          },
-        },
-      };
-    };
-  },
-  {callbackName: 'validateResetTokenResolver'},
-);
+        return {
+          valid: result.valid,
+          email: result.user?.email,
+        };
+      },
+    },
+  };
+}

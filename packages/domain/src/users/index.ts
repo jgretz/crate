@@ -5,3 +5,5 @@ export * from './update-user.service';
 export * from './delete-user.service';
 export * from './auth.service';
 export * from './password-reset.service';
+export * from './validate-reset-token.service';
+export * from './reset-password.service';
