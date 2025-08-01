@@ -2,6 +2,7 @@ import {createFileRoute} from '@tanstack/react-router';
 import {LinkList} from '../components/LinkList';
 import {AddLinkForm} from '../components/AddLinkForm';
 import {requireAuth} from '../services/auth/requireAuth';
+import {Mascot} from '../components/Mascot';
 
 export const Route = createFileRoute('/list')({
   beforeLoad: requireAuth,
@@ -15,7 +16,7 @@ function List() {
         <div className='flex-1'></div>
         <div className='flex-1 text-center'>
           <div className='flex items-center justify-center gap-3'>
-            <img src="/stashl-logo.png" alt="Stashl.ink mascot" className="w-10 h-10" />
+            <Mascot />
             <h1 className='text-3xl font-bold'>Stashl.ink</h1>
           </div>
         </div>
