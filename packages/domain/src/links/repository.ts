@@ -1,5 +1,5 @@
 import {Collection} from 'mongodb';
-import {setDependency, resolveDependency} from '@crate/iocdi';
+import {setDependency, resolveDependency} from '@stashl/iocdi';
 import {getDatabase} from '../database/connection';
 import type {Link} from '../types';
 

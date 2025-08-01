@@ -2,7 +2,7 @@ import {getUsersCollection} from './repository';
 import {ObjectId} from 'mongodb';
 import type {User, UpdateUserInput} from '../types';
 import {findUserByEmailService} from './get-users.service';
-import {authService} from '@crate/domain';
+import {authService} from '@stashl/domain';
 
 export async function updateUserService(id: string, input: UpdateUserInput): Promise<User | null> {
   if (input.email !== undefined) {

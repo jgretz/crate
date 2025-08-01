@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ActivityIndicator, Image} from 'react-native';
 import {useLocalSearchParams} from 'expo-router';
 import {LinkList, AddLinkForm, SharedLinkProcessor} from '../components';
 import {LoginScreen} from '../components/LoginScreen';
@@ -75,7 +75,14 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.headerTitle}>Crate</Text>
+          <View style={styles.headerTitleContainer}>
+            <Image 
+              source={require('../../assets/stashl-logo.png')} 
+              style={styles.headerLogo}
+              resizeMode="contain"
+            />
+            <Text style={styles.headerTitle}>Stashl.ink</Text>
+          </View>
           <Text style={styles.userGreeting}>Welcome, {user?.name}</Text>
         </View>
         <View style={styles.headerButtons}>
@@ -127,6 +134,15 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     flex: 1,
+  },
+  headerTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerLogo: {
+    width: 32,
+    height: 32,
+    marginRight: 8,
   },
   headerTitle: {
     fontSize: 24,

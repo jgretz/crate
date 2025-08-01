@@ -1,6 +1,6 @@
-import {InjectIn} from '@crate/iocdi';
-import {createPasswordResetService} from '@crate/domain';
-import {createEmailService} from '@crate/email';
+import {InjectIn} from '@stashl/iocdi';
+import {createPasswordResetService} from '@stashl/domain';
+import {createEmailService} from '@stashl/email';
 
 export const requestPasswordResetTypeDef = `
   type RequestPasswordResetResponse {

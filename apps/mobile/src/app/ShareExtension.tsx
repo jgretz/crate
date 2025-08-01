@@ -49,7 +49,7 @@ export default function ShareExtension({url, text}: InitialProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Save to Crate</Text>
+        <Text style={styles.title}>Save to Stashl.ink</Text>
       </View>
 
       <View style={styles.content}>
@@ -92,7 +92,7 @@ export default function ShareExtension({url, text}: InitialProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#f5f5dc',
     padding: 20,
   },
   header: {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: '#3d2914',
   },
   content: {
     flex: 1,
@@ -117,20 +117,20 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#888',
+    color: '#8b6914',
     marginBottom: 5,
   },
   url: {
     fontSize: 16,
-    color: '#007AFF',
-    backgroundColor: '#2a2a2a',
+    color: '#2b5f5f',
+    backgroundColor: '#ede4d3',
     padding: 10,
     borderRadius: 8,
   },
   text: {
     fontSize: 14,
-    color: '#ffffff',
-    backgroundColor: '#2a2a2a',
+    color: '#3d2914',
+    backgroundColor: '#ede4d3',
     padding: 10,
     borderRadius: 8,
   },
@@ -141,29 +141,29 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#333',
+    backgroundColor: '#d2b48c',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
   },
   cancelButtonText: {
-    color: '#ffffff',
+    color: '#3d2914',
     fontSize: 16,
     fontWeight: '600',
   },
   saveButton: {
     flex: 1,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#ff4500',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
   },
   saveButtonText: {
-    color: '#ffffff',
+    color: '#f5f5dc',
     fontSize: 16,
     fontWeight: '600',
   },
   disabledButton: {
-    backgroundColor: '#555',
+    backgroundColor: '#cd853f',
   },
 });

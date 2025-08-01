@@ -1,5 +1,5 @@
-import type {User, UpdateUserInput} from '@crate/domain';
-import {updateUserService} from '@crate/domain';
+import type {User, UpdateUserInput} from '@stashl/domain';
+import {updateUserService} from '@stashl/domain';
 
 export const updateUserTypeDef = `
   input UpdateUserInput {

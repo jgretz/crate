@@ -1,5 +1,5 @@
 import {makeExecutableSchema} from '@graphql-tools/schema';
-import {InjectIn} from '@crate/iocdi';
+import {InjectIn} from '@stashl/iocdi';
 import {
   linkTypeDefs,
   getAllLinksTypeDef,

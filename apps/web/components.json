@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@crate/web/components",
-    "utils": "@crate/web/utils/cn",
-    "ui": "@crate/web/components/ui",
-    "lib": "@crate/web/lib",
-    "hooks": "@crate/web/hooks"
+    "components": "@stashl/web/components",
+    "utils": "@stashl/web/utils/cn",
+    "ui": "@stashl/web/components/ui",
+    "lib": "@stashl/web/lib",
+    "hooks": "@stashl/web/hooks"
   },
   "iconLibrary": "lucide"
 }

@@ -18,12 +18,12 @@
 
     // Import paths
     "paths": {
-      "@crate/web/*": ["./apps/web/src/*"],
+      "@stashl/web/*": ["./apps/web/src/*"],
 
-      "@crate/domain": ["./packages/domain/src/index.ts"],
-      "@crate/domain-types": ["./packages/domain/src/types.ts"],
-      "@crate/email": ["./packages/email/src/index.ts"],
-      "@crate/iocdi": ["./packages/iocdi/src/index.ts"]
+      "@stashl/domain": ["./packages/domain/src/index.ts"],
+      "@stashl/domain-types": ["./packages/domain/src/types.ts"],
+      "@stashl/email": ["./packages/email/src/index.ts"],
+      "@stashl/iocdi": ["./packages/iocdi/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "dist"]

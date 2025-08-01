@@ -1,4 +1,4 @@
-import {authService} from '@crate/domain';
+import {authService} from '@stashl/domain';
 
 export const loginTypeDef = `
   input LoginInput {

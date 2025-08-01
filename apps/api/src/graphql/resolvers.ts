@@ -1,4 +1,4 @@
-import type {Link} from '@crate/domain';
+import type {Link} from '@stashl/domain';
 
 export const linkFieldResolver = function () {
   return {

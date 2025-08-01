@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {cn} from '@crate/web/utils/cn';
+import {cn} from '@stashl/web/utils/cn';
 
 function Input({className, type, ...props}: React.ComponentProps<'input'>) {
   return (

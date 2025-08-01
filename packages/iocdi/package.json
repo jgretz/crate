@@ -1,5 +1,5 @@
 {
-  "name": "@crate/iocdi",
+  "name": "@stashl/iocdi",
   "module": "src/index.ts",
   "type": "module",
   "private": true,

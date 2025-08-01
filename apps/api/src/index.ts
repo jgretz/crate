@@ -1,6 +1,6 @@
 import {Hono} from 'hono';
 import {createYoga} from 'graphql-yoga';
-import {initializeDomain} from '@crate/domain';
+import {initializeDomain} from '@stashl/domain';
 import {createSchema} from './schema';
 import {getAuthContext} from './auth/context';
 
@@ -15,7 +15,7 @@ try {
 }
 
 // Initialize email service
-import {initializeEmail} from '@crate/email';
+import {initializeEmail} from '@stashl/email';
 try {
   initializeEmail();
 } catch (error) {
@@ -37,7 +37,7 @@ app.use('/graphql', async (c) => {
   return await yoga.fetch(c.req.raw);
 });
 
-app.get('/', (c) => c.text('Crate API'));
+app.get('/', (c) => c.text('Stashl.ink API'));
 
 export default {
   port: 3001,

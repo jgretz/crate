@@ -1,5 +1,5 @@
-import {InjectIn} from '@crate/iocdi';
-import {createPasswordResetService} from '@crate/domain';
+import {InjectIn} from '@stashl/iocdi';
+import {createPasswordResetService} from '@stashl/domain';
 
 export const validateResetTokenTypeDef = `
   type ValidateResetTokenResponse {

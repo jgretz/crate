@@ -1,5 +1,5 @@
 {
-  "name": "@crate/api",
+  "name": "@stashl/api",
   "version": "1.0.0",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
@@ -9,9 +9,9 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@crate/domain": "workspace:*",
-    "@crate/email": "workspace:*",
-    "@crate/iocdi": "workspace:*",
+    "@stashl/domain": "workspace:*",
+    "@stashl/email": "workspace:*",
+    "@stashl/iocdi": "workspace:*",
     "@graphql-tools/schema": "^10.0.23",
     "@hono/graphql-server": "^0.6.2",
     "graphql": "^16.8.1",

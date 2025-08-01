@@ -17,7 +17,7 @@ config.resolver.nodeModulesPaths = [
 
 // Handle workspace dependencies
 config.resolver.alias = {
-  '@crate/domain': path.resolve(workspaceRoot, 'packages/domain/src'),
+  '@stashl/domain': path.resolve(workspaceRoot, 'packages/domain/src'),
 };
 
 module.exports = withShareExtension(config);

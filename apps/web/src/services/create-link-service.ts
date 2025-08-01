@@ -1,5 +1,5 @@
 import {graphqlClient} from './graphql-client';
-import type {Link, CreateLinkInput} from '@crate/domain-types';
+import type {Link, CreateLinkInput} from '@stashl/domain-types';
 
 const CREATE_LINK = `
   mutation CreateLink($input: CreateLinkInput!) {

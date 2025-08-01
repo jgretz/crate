@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import {InjectIn} from '@crate/iocdi';
+import {InjectIn} from '@stashl/iocdi';
 import type {EmailConfig} from './types';
 
 export interface SendEmailOptions {
@@ -46,7 +46,7 @@ export const createEmailService = InjectIn(
           const html = `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2>Password Reset Request</h2>
-              <p>You requested a password reset for your Crate account.</p>
+              <p>You requested a password reset for your Stashl.ink account.</p>
               <p>Click the link below to reset your password:</p>
               <p>
                 <a href="${resetUrl}" style="background-color: #007cba; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
@@ -61,7 +61,7 @@ export const createEmailService = InjectIn(
           const text = `
             Password Reset Request
 
-            You requested a password reset for your Crate account.
+            You requested a password reset for your Stashl.ink account.
 
             Visit this link to reset your password: ${resetUrl}
 
@@ -72,7 +72,7 @@ export const createEmailService = InjectIn(
 
           await this.sendEmail({
             to: email,
-            subject: 'Reset your Crate password',
+            subject: 'Reset your Stashl.ink password',
             html,
             text,
           });

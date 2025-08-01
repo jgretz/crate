@@ -1,5 +1,5 @@
-import type {Link} from '@crate/domain';
-import {getAllLinksByUserService} from '@crate/domain';
+import type {Link} from '@stashl/domain';
+import {getAllLinksByUserService} from '@stashl/domain';
 import {requireAuth, type AuthContext} from '../../auth/context';
 
 export const getAllLinksTypeDef = `

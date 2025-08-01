@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Crate",
-    "slug": "crate-links",
+    "name": "Stashl.ink",
+    "slug": "stashl-links",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
-    "scheme": "crate",
+    "scheme": "stashl",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -37,7 +37,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.crate.links"
+      "bundleIdentifier": "com.stashl.links"
     },
     "android": {
       "adaptiveIcon": {
@@ -45,7 +45,7 @@
         "backgroundColor": "#1a1a1a"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.crate.links",
+      "package": "com.stashl.links",
       "intentFilters": [
         {
           "action": "android.intent.action.SEND",

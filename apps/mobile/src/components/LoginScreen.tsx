@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Alert,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import {useAuth} from '../contexts/AuthContext';
 import {colors} from '../theme';
@@ -38,7 +39,14 @@ export function LoginScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.title}>Welcome to Crate</Text>
+          <View style={styles.titleContainer}>
+            <Image 
+              source={require('../../assets/stashl-logo.png')} 
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <Text style={styles.title}>Welcome to Stashl.ink</Text>
+          </View>
           <Text style={styles.subtitle}>Sign in to access your links</Text>
         </View>
 
@@ -102,11 +110,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 48,
   },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  logo: {
+    width: 48,
+    height: 48,
+    marginRight: 12,
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     color: colors.foreground,
-    marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,

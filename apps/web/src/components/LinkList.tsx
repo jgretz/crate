@@ -1,7 +1,7 @@
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import {match} from 'ts-pattern';
 import {getLinks, deleteLink, type LinksResponse} from '../services';
-import type {Link} from '@crate/domain-types';
+import type {Link} from '@stashl/domain-types';
 import {LinkCard} from './LinkCard';
 
 // Loading state component

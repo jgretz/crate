@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useForm} from '@tanstack/react-form';
 import {createLink} from '../services';
-import type {CreateLinkInput} from '@crate/domain-types';
+import type {CreateLinkInput} from '@stashl/domain-types';
 import {createLinkSchema, type CreateLinkFormData} from '../schemas';
 import {Button} from './ui/button';
 import {FormInput, FormTextArea} from './forms';

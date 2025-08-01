@@ -14,7 +14,10 @@ function List() {
       <div className='flex flex-row items-center justify-between w-full py-5'>
         <div className='flex-1'></div>
         <div className='flex-1 text-center'>
-          <h1 className='text-3xl font-bold'>Crate</h1>
+          <div className='flex items-center justify-center gap-3'>
+            <img src="/stashl-logo.png" alt="Stashl.ink mascot" className="w-10 h-10" />
+            <h1 className='text-3xl font-bold'>Stashl.ink</h1>
+          </div>
         </div>
         <div className='flex-1 flex justify-center items-right'>
           <AddLinkForm />

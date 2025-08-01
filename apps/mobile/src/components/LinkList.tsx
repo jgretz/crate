@@ -2,7 +2,7 @@ import React from 'react';
 import {FlatList, View, Text, StyleSheet, ActivityIndicator, RefreshControl} from 'react-native';
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import {getLinks, deleteLink, type LinksResponse} from '../services';
-import type {Link} from '@crate/domain';
+import type {Link} from '@stashl/domain';
 import {LinkCard} from './LinkCard';
 import {colors} from '../theme';
 

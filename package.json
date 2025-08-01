@@ -1,5 +1,5 @@
 {
-  "name": "crate",
+  "name": "stashl",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -7,12 +7,12 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "bun run --filter=@crate/api dev & bun run --filter=@crate/web dev",
-    "dev:api": "bun run --filter=@crate/api dev",
-    "dev:web": "bun run --filter=@crate/web dev",
-    "dev:mobile": "bun run --filter=@crate/mobile start",
-    "mobile:ios": "bun run --filter=@crate/mobile ios",
-    "mobile:android": "bun run --filter=@crate/mobile android",
+    "dev": "bun run --filter=@stashl/api dev & bun run --filter=@stashl/web dev",
+    "dev:api": "bun run --filter=@stashl/api dev",
+    "dev:web": "bun run --filter=@stashl/web dev",
+    "dev:mobile": "bun run --filter=@stashl/mobile start",
+    "mobile:ios": "bun run --filter=@stashl/mobile ios",
+    "mobile:android": "bun run --filter=@stashl/mobile android",
     "type-check": "bun run --filter=* type-check",
     "lint": "bun run --filter=* lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",

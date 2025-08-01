@@ -7,7 +7,10 @@ export function RootErrorComponent({error}: {error: Error}) {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-[800px] mx-auto w-full px-4 text-center">
-        <h1 className="text-3xl font-bold mb-4">Crate</h1>
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <img src="/stashl-logo.png" alt="Stashl.ink mascot" className="w-12 h-12" />
+          <h1 className="text-3xl font-bold">Stashl.ink</h1>
+        </div>
         <h2 className="text-xl font-semibold text-red-600 mb-4">Something went wrong</h2>
         
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">

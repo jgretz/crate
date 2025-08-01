@@ -1,38 +1,38 @@
 /**
- * Dark theme colors matching the web app
- * Converted from OKLCH to hex values for React Native compatibility
+ * Woodsy papyrus theme colors matching the Stashl.ink mascot
+ * Based on warm browns, teals, and cream backgrounds for a natural feel
  */
 export const colors = {
   // Main background and surface colors
-  background: '#1a1a1a', // Very dark background
-  foreground: '#fafafa', // Light text on dark background
-  card: '#2a2a2a', // Dark card background
-  cardForeground: '#fafafa', // Light text on cards
+  background: '#f5f5dc', // Cream/beige background
+  foreground: '#3d2914', // Dark brown text
+  card: '#ede4d3', // Light tan card background
+  cardForeground: '#3d2914', // Dark brown text on cards
 
   // Interactive elements
-  primary: '#f0f0f0', // Light accent color
-  primaryForeground: '#2a2a2a', // Dark text on light background
-  secondary: '#3a3a3a', // Medium dark for secondary elements
-  secondaryForeground: '#fafafa', // Light text on secondary
+  primary: '#2b5f5f', // Deep teal for primary actions
+  primaryForeground: '#f5f5dc', // Cream text on teal
+  secondary: '#d2b48c', // Warm tan for secondary elements
+  secondaryForeground: '#3d2914', // Dark brown text on tan
 
   // Text variants
-  muted: '#3a3a3a', // Muted background
-  mutedForeground: '#a0a0a0', // Muted text color
+  muted: '#d2b48c', // Warm tan muted background  
+  mutedForeground: '#8b6914', // Medium brown muted text
 
   // Borders and inputs
-  border: 'rgba(255, 255, 255, 0.1)', // Subtle border
-  input: 'rgba(255, 255, 255, 0.15)', // Input background
+  border: 'rgba(61, 41, 20, 0.2)', // Subtle brown border
+  input: 'rgba(61, 41, 20, 0.1)', // Light brown input background
 
   // Status colors
-  destructive: '#ef4444', // Red for delete/error actions
-  success: '#22c55e', // Green for success
-  warning: '#f59e0b', // Orange for warnings
+  destructive: '#cd853f', // Muted orange-brown for delete actions
+  success: '#6b8e23', // Olive green for success
+  warning: '#ff6347', // Tomato orange for warnings
 
   // Link-specific colors
-  linkAccent: '#60a5fa', // Blue for links
+  linkAccent: '#ff4500', // Bright orange accent from mascot
 
   // Shadow colors for elevation
-  shadowColor: '#000000',
+  shadowColor: '#3d2914',
 } as const;
 
 export type ColorKey = keyof typeof colors;

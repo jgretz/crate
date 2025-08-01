@@ -1,5 +1,5 @@
-import type {Link, CreateLinkInput} from '@crate/domain';
-import {createLinkService} from '@crate/domain';
+import type {Link, CreateLinkInput} from '@stashl/domain';
+import {createLinkService} from '@stashl/domain';
 import {requireAuth, type AuthContext} from '../../auth/context';
 
 export const createLinkTypeDef = `

@@ -1,4 +1,4 @@
-import {deleteLinkService} from '@crate/domain';
+import {deleteLinkService} from '@stashl/domain';
 import {requireAuth, type AuthContext} from '../../auth/context';
 
 export const deleteLinkTypeDef = `

@@ -1,4 +1,4 @@
-import type {Link, CreateLinkInput} from '@crate/domain';
+import type {Link, CreateLinkInput} from '@stashl/domain';
 import {config} from '../config';
 import {getAuthHeaders} from './auth';
 

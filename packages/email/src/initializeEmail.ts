@@ -1,4 +1,4 @@
-import {setDependency} from '@crate/iocdi';
+import {setDependency} from '@stashl/iocdi';
 import type {EmailConfig} from './types';
 
 export function initializeEmail() {

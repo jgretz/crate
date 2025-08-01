@@ -14,7 +14,7 @@ import {
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {createLink} from '../services';
 import {createLinkSchema, type CreateLinkFormData} from '../schemas';
-import type {CreateLinkInput} from '@crate/domain';
+import type {CreateLinkInput} from '@stashl/domain';
 import {colors} from '../theme';
 
 interface AddLinkFormProps {

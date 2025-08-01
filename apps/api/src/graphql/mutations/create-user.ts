@@ -1,4 +1,4 @@
-import {createUserService} from '@crate/domain';
+import {createUserService} from '@stashl/domain';
 
 export const createUserTypeDef = `
   input CreateUserInput {

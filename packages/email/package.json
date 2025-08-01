@@ -1,5 +1,5 @@
 {
-  "name": "@crate/email",
+  "name": "@stashl/email",
   "version": "1.0.0",
   "type": "module",
   "main": "src/index.ts",
@@ -8,7 +8,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@crate/iocdi": "workspace:*",
+    "@stashl/iocdi": "workspace:*",
     "nodemailer": "^6.9.14"
   },
   "devDependencies": {

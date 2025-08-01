@@ -3,7 +3,7 @@ import * as IntentLauncher from 'expo-intent-launcher';
 import {Platform} from 'react-native';
 import {fetchPageMetadata, isValidUrl, normalizeUrl} from './metadata';
 import {createLink} from './api';
-import type {CreateLinkInput} from '@crate/domain';
+import type {CreateLinkInput} from '@stashl/domain';
 
 export interface SharedLinkData {
   url: string;
@@ -98,11 +98,11 @@ export class ShareHandler {
 
       let sharedUrl = '';
 
-      if (parsedURL.scheme === 'crate') {
-        // Handle custom scheme URLs: crate://share?url=...
+      if (parsedURL.scheme === 'stashl') {
+        // Handle custom scheme URLs: stashl://share?url=...
         sharedUrl = (parsedURL.queryParams?.url as string) || '';
 
-        // Also check for direct text sharing: crate://share?text=...
+        // Also check for direct text sharing: stashl://share?text=...
         if (!sharedUrl) {
           const text = (parsedURL.queryParams?.text as string) || '';
           // Extract URL from text if it contains one

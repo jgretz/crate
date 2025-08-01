@@ -1,5 +1,5 @@
 {
-  "name": "@crate/domain",
+  "name": "@stashl/domain",
   "version": "1.0.0",
   "type": "module",
   "main": "src/index.ts",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "mongodb": "^6.0.0",
-    "@crate/iocdi": "workspace:*",
+    "@stashl/iocdi": "workspace:*",
     "bcryptjs": "^2.4.3"
   },
   "devDependencies": {

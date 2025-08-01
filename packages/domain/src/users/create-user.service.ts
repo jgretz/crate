@@ -1,7 +1,7 @@
 import {getUsersCollection} from './repository';
 import {ObjectId} from 'mongodb';
 import type {User, CreateUserInput} from '../types';
-import {authService} from '@crate/domain';
+import {authService} from '@stashl/domain';
 
 export async function createUserService(input: CreateUserInput): Promise<User> {
   if (!input.email.trim()) {

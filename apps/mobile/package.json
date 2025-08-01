@@ -1,5 +1,5 @@
 {
-  "name": "@crate/mobile",
+  "name": "@stashl/mobile",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
@@ -12,7 +12,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@crate/domain": "workspace:*",
+    "@stashl/domain": "workspace:*",
     "@tanstack/react-query": "^5.83.0",
     "expo": "~53.0.0",
     "expo-constants": "~17.1.7",

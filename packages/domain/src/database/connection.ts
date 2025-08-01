@@ -1,5 +1,5 @@
 import {MongoClient, Db, ServerApiVersion} from 'mongodb';
-import {setDependency, resolveDependency} from '@crate/iocdi';
+import {setDependency, resolveDependency} from '@stashl/iocdi';
 import {DATABASE_SYMBOLS, type DatabaseConfig} from './config';
 
 /**

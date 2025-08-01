@@ -1,4 +1,4 @@
-import type {Link} from '@crate/domain-types';
+import type {Link} from '@stashl/domain-types';
 import {Button} from './ui/button';
 import {
   AlertDialog,

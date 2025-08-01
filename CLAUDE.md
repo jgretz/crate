@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Overview
+
+Stashl.ink is a link management application that allows users to organize and manage their links across web and mobile platforms.
+
 ## Project Structure
 
 This is a monorepo using Bun workspaces with the following structure:
@@ -11,6 +15,7 @@ This is a monorepo using Bun workspaces with the following structure:
 - `apps/mobile/` - React Native app with Expo for cross-platform mobile
 - `packages/domain/` - Domain business logic and MongoDB repositories
 - `packages/iocdi/` - Custom IoC/DI container for functional architecture
+- `packages/assets/` - Shared assets including the Stashl.ink mascot logo
 
 ## Development Commands
 
@@ -54,7 +59,7 @@ bun test packages/iocdi/tests/
 - **Database**: MongoDB for data persistence
 - **Schema**: GraphQL schema assembled from modular type definitions and resolvers
 - **Authentication**: JWT-based auth with context injection
-- **Dependency Injection**: Uses custom `@crate/iocdi` for functional DI
+- **Dependency Injection**: Uses custom `@stashl/iocdi` for functional DI
 - **Port**: 3001
 
 ### Web App (`apps/web/`)
@@ -80,7 +85,7 @@ bun test packages/iocdi/tests/
 - **Architecture**: Functional domain layer with service-repository pattern
 - **Database**: MongoDB with custom repository implementations
 - **Services**: Business logic for links and users (CRUD operations)
-- **Dependency Injection**: Integrated with `@crate/iocdi` container
+- **Dependency Injection**: Integrated with `@stashl/iocdi` container
 
 ### IoC/DI Package (`packages/iocdi/`)
 
@@ -99,6 +104,17 @@ bun test packages/iocdi/tests/
 - **Database**: MongoDB with custom repository pattern
 - **Authentication**: JWT tokens with secure storage
 
+## Design Theme
+
+Stashl.ink uses a "woodsy papyrus" design theme inspired by the mascot character - a friendly gnome with a quill and tablet. The color palette includes:
+- **Primary**: Deep teal (#2b5f5f) for primary actions and branding
+- **Accent**: Bright orange (#ff4500) for highlights and calls-to-action  
+- **Background**: Cream/beige (#f5f5dc) for a warm, natural feel
+- **Text**: Dark brown (#3d2914) for readability
+- **Secondary**: Warm tan (#d2b48c) for secondary elements
+
+The mascot logo should be integrated into key UI elements like headers, login screens, and loading states.
+
 ## Code Style
 
 - Uses Prettier with single quotes, semicolons, and trailing commas
@@ -113,8 +129,9 @@ bun test packages/iocdi/tests/
 
 ## Workflow
 
-- Always run `bun run type-check` after any changeset and ensure there are no type errors
-- Always run `bun test packages/iocdi/tests/` after changes to the iocdi package
+<!-- - Always run `bun run type-check` after any changeset and ensure there are no type errors
+- Always run `bun test packages/iocdi/tests/` after changes to the iocdi package -->
+
 - Be terse in the explanation of changes
 - Do not create md files explaining what you did unless explicitly directed
 
@@ -123,4 +140,4 @@ bun test packages/iocdi/tests/
 - Do what has been asked; nothing more, nothing less
 - NEVER create files unless they're absolutely necessary for achieving your goal
 - ALWAYS prefer editing an existing file to creating a new one
-- NEVER proactively create documentation files (*.md) or README files unless explicitly requested
+- NEVER proactively create documentation files (\*.md) or README files unless explicitly requested

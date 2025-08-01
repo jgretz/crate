@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
-import {InjectIn} from '@crate/iocdi';
+import {InjectIn} from '@stashl/iocdi';
 import {getUsersCollection} from './repository';
 import {ObjectId} from 'mongodb';
 

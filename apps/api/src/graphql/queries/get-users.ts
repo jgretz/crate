@@ -1,5 +1,5 @@
-import {getAllUsersService} from '@crate/domain';
-import type {User} from '@crate/domain';
+import {getAllUsersService} from '@stashl/domain';
+import type {User} from '@stashl/domain';
 
 export const getUsersTypeDef = `
   extend type Query {

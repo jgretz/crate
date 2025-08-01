@@ -9,7 +9,10 @@ function Landing() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-[800px] mx-auto w-full px-4 text-center">
-        <h1 className="text-3xl font-bold mb-6">Crate</h1>
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <img src="/stashl-logo.png" alt="Stashl.ink mascot" className="w-16 h-16" />
+          <h1 className="text-3xl font-bold">Stashl.ink</h1>
+        </div>
         <p className="text-gray-600 mb-8 text-lg">
           Organize and manage your links in one place
         </p>

@@ -1,4 +1,4 @@
-import {deleteUserService} from '@crate/domain';
+import {deleteUserService} from '@stashl/domain';
 
 export const deleteUserTypeDef = `
   extend type Mutation {
