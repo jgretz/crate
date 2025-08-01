@@ -37,7 +37,12 @@ app.use('/graphql', async (c) => {
   return await yoga.fetch(c.req.raw);
 });
 
-app.get('/', (c) => c.text('Stashl.ink API'));
+app.get('/ping', (c) =>
+  c.json({
+    alive: true,
+    timestamp: new Date().toISOString(),
+  }),
+);
 
 export default {
   port: 3001,
