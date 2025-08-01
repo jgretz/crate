@@ -12,7 +12,7 @@ export interface SendEmailOptions {
 export const createEmailService = InjectIn(
   function ({emailConfig}: {emailConfig: EmailConfig}) {
     return function () {
-      const transporter = nodemailer.createTransport({
+      const transport = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: emailConfig.gmail.user,
@@ -23,7 +23,7 @@ export const createEmailService = InjectIn(
       return {
         async sendEmail(options: SendEmailOptions): Promise<void> {
           try {
-            await transporter.sendMail({
+            await transport.sendMail({
               from: emailConfig.from,
               to: options.to,
               subject: options.subject,

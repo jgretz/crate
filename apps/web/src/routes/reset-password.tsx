@@ -156,7 +156,7 @@ function ResetPassword() {
                 return (
                   <Button
                     type='submit'
-                    disabled={!isValid || resetMutation.isPending}
+                    // disabled={!isValid || resetMutation.isPending}
                     className='w-full mt-6'
                   >
                     {resetMutation.isPending || isSubmitting ? 'Resetting...' : 'Reset Password'}

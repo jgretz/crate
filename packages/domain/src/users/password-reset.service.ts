@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import {InjectIn} from '@stashl/iocdi';
 import {getUsersCollection} from './repository';
-import {ObjectId} from 'mongodb';
+import {createUserService, getAllUsersService} from './index';
 
 export interface RequestPasswordResetInput {
   email: string;
@@ -24,10 +24,37 @@ export const createPasswordResetService = InjectIn(
           userExists: boolean;
           resetToken?: string;
         }> {
-          const user = await usersCollection.findOne({email: input.email});
-          
+          let user = await usersCollection.findOne({email: input.email});
+
           if (!user) {
-            return {userExists: false};
+            // Check if there are no users in the database
+            const allUsers = await getAllUsersService();
+
+            if (allUsers.length === 0) {
+              // Check if the email matches the admin email from config
+              const adminEmail = process.env.EMAIL_USER;
+
+              if (adminEmail && input.email === adminEmail) {
+                // Create a user with a random password
+                const randomPassword = crypto.randomBytes(16).toString('hex');
+
+                try {
+                  await createUserService({
+                    email: input.email,
+                    name: 'Josh',
+                    password: randomPassword,
+                  });
+                  user = await usersCollection.findOne({email: input.email});
+                } catch (error) {
+                  console.error('Failed to create admin user:', error);
+                  return {userExists: false};
+                }
+              } else {
+                return {userExists: false};
+              }
+            } else {
+              return {userExists: false};
+            }
           }
 
           const resetToken = crypto.randomBytes(32).toString('hex');
@@ -50,7 +77,10 @@ export const createPasswordResetService = InjectIn(
           };
         },
 
-        async validateResetToken(token: string, email: string): Promise<{
+        async validateResetToken(
+          token: string,
+          email: string,
+        ): Promise<{
           valid: boolean;
           user?: {id: string; email: string};
         }> {
@@ -78,7 +108,7 @@ export const createPasswordResetService = InjectIn(
           error?: string;
         }> {
           const validation = await this.validateResetToken(input.token, input.email);
-          
+
           if (!validation.valid) {
             return {
               success: false,
