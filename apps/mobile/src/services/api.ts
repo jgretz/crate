@@ -1,16 +1,17 @@
 import type {Link, CreateLinkInput} from '@crate/domain';
 import {config} from '../config';
+import {getAuthHeaders} from './auth';
 
 export interface LinksResponse {
   links: Link[];
 }
 
 async function graphqlRequest(query: string, variables?: any) {
+  const headers = await getAuthHeaders();
+  
   const response = await fetch(config.apiUrl, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify({
       query,
       variables,

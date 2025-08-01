@@ -14,6 +14,15 @@ try {
   process.exit(1);
 }
 
+// Initialize email service
+import {initializeEmail} from '@crate/email';
+try {
+  initializeEmail();
+} catch (error) {
+  console.error('❌ Failed to initialize email service:', error.message);
+  process.exit(1);
+}
+
 // Create the GraphQL schema using the functional approach
 const schema = createSchema();
 

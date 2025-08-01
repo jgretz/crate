@@ -37,6 +37,8 @@ export interface User {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+  resetToken?: string;
+  resetTokenExpiry?: Date;
 }
 
 export interface CreateUserInput {
@@ -68,4 +70,7 @@ export interface UserRepository {
   findAll(): Promise<User[]>;
   update(id: string, input: UpdateUserInput): Promise<User | null>;
   delete(id: string): Promise<boolean>;
+  setResetToken(email: string, token: string, expiry: Date): Promise<boolean>;
+  findByResetToken(token: string): Promise<User | null>;
+  clearResetToken(id: string): Promise<boolean>;
 }

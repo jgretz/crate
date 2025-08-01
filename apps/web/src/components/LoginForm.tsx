@@ -1,10 +1,12 @@
 import {useMutation} from '@tanstack/react-query';
 import {useForm} from '@tanstack/react-form';
 import {useNavigate} from '@tanstack/react-router';
+import {useState} from 'react';
 import {login, setAuthToken} from '../services';
 import {loginSchema, type LoginFormData} from '../schemas';
 import {Button} from './ui/button';
 import {FormInput} from './forms';
+import {ResetPasswordDialog} from './ResetPasswordDialog';
 
 // Helper function to create TanStack Form validators from Zod schema
 function createZodValidator<T>(schema: any, field: keyof T) {
@@ -20,6 +22,7 @@ function createZodValidator<T>(schema: any, field: keyof T) {
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const [showResetDialog, setShowResetDialog] = useState(false);
 
   const loginMutation = useMutation({
     mutationFn: login,
@@ -117,7 +120,22 @@ export function LoginForm() {
               Invalid email or password. Please try again.
             </p>
           )}
+
+          <div className="text-center mt-4">
+            <button
+              type="button"
+              onClick={() => setShowResetDialog(true)}
+              className="text-sm text-blue-600 hover:text-blue-800 underline"
+            >
+              Forgot your password?
+            </button>
+          </div>
         </form>
+
+        <ResetPasswordDialog
+          open={showResetDialog}
+          onOpenChange={setShowResetDialog}
+        />
       </div>
     </div>
   );

@@ -27,5 +27,7 @@
     "typescript": "^5.8.3"
   },
   "packageManager": "bun@1.2.18",
-  "dependencies": {}
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  }
 }

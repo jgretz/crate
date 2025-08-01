@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@crate/domain": "workspace:*",
+    "@crate/email": "workspace:*",
     "@crate/iocdi": "workspace:*",
     "@graphql-tools/schema": "^10.0.23",
     "@hono/graphql-server": "^0.6.2",

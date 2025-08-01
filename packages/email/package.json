@@ -1,5 +1,5 @@
 {
-  "name": "@crate/domain",
+  "name": "@crate/email",
   "version": "1.0.0",
   "type": "module",
   "main": "src/index.ts",
@@ -8,13 +8,12 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "mongodb": "^6.0.0",
     "@crate/iocdi": "workspace:*",
-    "bcryptjs": "^2.4.3"
+    "nodemailer": "^6.9.14"
   },
   "devDependencies": {
+    "@types/nodemailer": "^6.4.16",
     "typescript": "^5.3.0",
-    "@types/node": "^20.10.0",
-    "@types/bcryptjs": "^2.4.6"
+    "@types/node": "^20.10.0"
   }
 }
