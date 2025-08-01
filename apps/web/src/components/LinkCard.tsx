@@ -1,16 +1,4 @@
 import type {Link} from '@stashl/domain-types';
-import {Button} from './ui/button';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from './ui/alert-dialog';
 
 interface LinkCardProps {
   link: Link;
@@ -24,6 +12,12 @@ export function LinkCard({link, onDelete}: LinkCardProps) {
       month: 'short',
       day: 'numeric',
     });
+  };
+
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete "${link.title}"?`)) {
+      onDelete();
+    }
   };
 
   return (
@@ -46,27 +40,14 @@ export function LinkCard({link, onDelete}: LinkCardProps) {
           <p className='text-xs text-amber-700 mt-3'>Added {formatDate(link.dateAdded)}</p>
         </div>
 
-        <div className='flex items-center space-x-2 ml-4'>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant='destructive' size='sm' className='bg-orange-500 hover:bg-orange-600 border-orange-600'>
-                Delete
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className='bg-amber-50 border-amber-200'>
-              <AlertDialogHeader>
-                <AlertDialogTitle className='text-amber-900'>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription className='text-amber-800'>
-                  This action cannot be undone. This will permanently delete the link &quot;
-                  {link.title}&quot;.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel className='bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={onDelete} className='bg-orange-500 hover:bg-orange-600 text-white'>Delete</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+        <div className='flex items-center ml-4'>
+          <button
+            onClick={handleDelete}
+            className='p-2 text-orange-500 hover:text-orange-600 hover:bg-orange-100 rounded-full transition-colors'
+            title='Delete link'
+          >
+            ✕
+          </button>
         </div>
       </div>
     </div>

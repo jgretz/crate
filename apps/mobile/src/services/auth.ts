@@ -1,8 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
 import {config} from '../config';
 
-const AUTH_TOKEN_KEY = '@stashl_auth_token';
-const USER_KEY = '@stashl_user';
+const AUTH_TOKEN_KEY = 'stashl_auth_token';
+const USER_KEY = 'stashl_user';
 
 export interface User {
   _id: string;

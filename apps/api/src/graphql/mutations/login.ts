@@ -28,7 +28,6 @@ export function loginResolver() {
   return {
     Mutation: {
       async login(_: any, {input}: {input: {email: string; password: string}}) {
-        console.log('Login attempt with input:', input);
         const result = await authService.login(input);
         if (!result) {
           throw new Error('Invalid email or password');

@@ -33,7 +33,7 @@ export async function login(input: LoginFormData): Promise<AuthResponse> {
 }
 
 export function setAuthToken(token: string) {
-  document.cookie = `auth-token=${token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`;
+  document.cookie = `auth-token=${token}; path=/; max-age=${30 * 24 * 60 * 60}; secure; samesite=strict`;
   graphqlClient.setHeader('Authorization', `Bearer ${token}`);
 }
 
@@ -41,9 +41,9 @@ export function getAuthToken(): string | null {
   if (typeof document === 'undefined') {
     return null;
   }
-  
+
   const cookies = document.cookie.split(';');
-  const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth-token='));
+  const authCookie = cookies.find((cookie) => cookie.trim().startsWith('auth-token='));
   return authCookie ? authCookie.split('=')[1] : null;
 }
 
@@ -51,7 +51,7 @@ export function clearAuthToken() {
   if (typeof document === 'undefined') {
     return;
   }
-  
+
   document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   graphqlClient.setHeader('Authorization', '');
 }
@@ -60,7 +60,22 @@ export function isAuthenticated(): boolean {
   if (typeof document === 'undefined') {
     return false;
   }
-  
+
   const token = getAuthToken();
-  return token !== null && token !== '' && token !== 'undefined';
+  const authenticated = token !== null && token !== '' && token !== 'undefined';
+
+  // Ensure GraphQL client has the token set for subsequent requests
+  if (authenticated && token) {
+    graphqlClient.setHeader('Authorization', `Bearer ${token}`);
+  }
+
+  return authenticated;
+}
+
+// Initialize auth on module load
+if (typeof document !== 'undefined') {
+  const token = getAuthToken();
+  if (token && token !== '' && token !== 'undefined') {
+    graphqlClient.setHeader('Authorization', `Bearer ${token}`);
+  }
 }

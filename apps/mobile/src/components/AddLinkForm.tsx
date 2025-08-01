@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {createLink} from '../services';
-import {createLinkSchema, type CreateLinkFormData} from '../schemas';
+import {fetchPageMetadata, normalizeUrl, isValidUrl} from '@stashl/metadata';
 import type {CreateLinkInput} from '@stashl/domain';
 import {colors} from '../theme';
 
@@ -23,12 +23,9 @@ interface AddLinkFormProps {
 }
 
 export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
-  const [formData, setFormData] = useState<CreateLinkFormData>({
-    url: '',
-    title: '',
-    description: '',
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [url, setUrl] = useState('');
+  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
+  const [error, setError] = useState('');
 
   const queryClient = useQueryClient();
 
@@ -44,70 +41,55 @@ export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
     },
   });
 
-  const validateField = (field: keyof CreateLinkFormData, value: string) => {
-    const fieldValidation = createLinkSchema.shape[field];
-    if (fieldValidation) {
-      const result = fieldValidation.safeParse(value || undefined);
-      if (!result.success) {
-        return result.error.issues[0]?.message;
-      }
-    }
-    return undefined;
-  };
-
-  const validateForm = () => {
-    const formToValidate = {
-      ...formData,
-      description: formData.description?.trim() || undefined,
-    };
-
-    const result = createLinkSchema.safeParse(formToValidate);
-    if (!result.success) {
-      const newErrors: Record<string, string> = {};
-      result.error.issues.forEach((issue) => {
-        if (issue.path[0]) {
-          newErrors[issue.path[0] as string] = issue.message;
-        }
-      });
-      setErrors(newErrors);
-      return false;
-    }
-    setErrors({});
-    return true;
-  };
-
-  const handleSubmit = () => {
-    if (!validateForm()) {
+  const handleSubmit = async () => {
+    if (!url.trim()) {
+      setError('URL is required');
       return;
     }
 
-    const submitData = {
-      ...formData,
-      description: formData.description?.trim() || undefined,
-    };
+    const normalizedUrl = normalizeUrl(url.trim());
 
-    createLinkMutation.mutate(submitData as CreateLinkInput);
-  };
+    if (!isValidUrl(normalizedUrl)) {
+      setError('Please enter a valid URL');
+      return;
+    }
 
-  const handleClose = () => {
-    setFormData({url: '', title: '', description: ''});
-    setErrors({});
-    onClose();
-  };
+    setIsLoadingMetadata(true);
+    setError('');
 
-  const handleFieldChange = (field: keyof CreateLinkFormData, value: string) => {
-    setFormData((prev) => ({...prev, [field]: value}));
+    try {
+      const metadata = await fetchPageMetadata(normalizedUrl);
 
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => ({...prev, [field]: ''}));
+      const linkData: CreateLinkInput = {
+        url: normalizedUrl,
+        title: metadata.title,
+        description: metadata.description,
+      };
+
+      createLinkMutation.mutate(linkData);
+    } catch (error) {
+      console.error('Error fetching metadata:', error);
+      // Fallback: create link with just URL
+      createLinkMutation.mutate({
+        url: normalizedUrl,
+        title: new URL(normalizedUrl).hostname,
+      });
+    } finally {
+      setIsLoadingMetadata(false);
     }
   };
 
-  const handleFieldBlur = (field: keyof CreateLinkFormData, value: string) => {
-    const error = validateField(field, value);
+  const handleClose = () => {
+    setUrl('');
+    setError('');
+    setIsLoadingMetadata(false);
+    onClose();
+  };
+
+  const handleUrlChange = (value: string) => {
+    setUrl(value);
     if (error) {
-      setErrors((prev) => ({...prev, [field]: error}));
+      setError('');
     }
   };
 
@@ -122,11 +104,21 @@ export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
             <Text style={styles.cancelButton}>Cancel</Text>
           </TouchableOpacity>
           <Text style={styles.title}>Add New Link</Text>
-          <TouchableOpacity onPress={handleSubmit} disabled={createLinkMutation.isPending}>
+          <TouchableOpacity
+            onPress={handleSubmit}
+            disabled={createLinkMutation.isPending || isLoadingMetadata}
+          >
             <Text
-              style={[styles.saveButton, createLinkMutation.isPending && styles.disabledButton]}
+              style={[
+                styles.saveButton,
+                (createLinkMutation.isPending || isLoadingMetadata) && styles.disabledButton,
+              ]}
             >
-              {createLinkMutation.isPending ? 'Adding...' : 'Add'}
+              {isLoadingMetadata
+                ? 'Fetching...'
+                : createLinkMutation.isPending
+                  ? 'Adding...'
+                  : 'Add'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -135,46 +127,16 @@ export function AddLinkForm({visible, onClose}: AddLinkFormProps) {
           <View style={styles.field}>
             <Text style={styles.label}>URL *</Text>
             <TextInput
-              style={[styles.input, errors.url && styles.inputError]}
-              value={formData.url}
-              onChangeText={(value) => handleFieldChange('url', value)}
-              onBlur={() => handleFieldBlur('url', formData.url)}
+              style={[styles.input, error && styles.inputError]}
+              value={url}
+              onChangeText={handleUrlChange}
               placeholder='https://example.com'
               placeholderTextColor={colors.mutedForeground}
               keyboardType='url'
               autoCapitalize='none'
               autoCorrect={false}
             />
-            {errors.url && <Text style={styles.errorText}>{errors.url}</Text>}
-          </View>
-
-          <View style={styles.field}>
-            <Text style={styles.label}>Title *</Text>
-            <TextInput
-              style={[styles.input, errors.title && styles.inputError]}
-              value={formData.title}
-              onChangeText={(value) => handleFieldChange('title', value)}
-              onBlur={() => handleFieldBlur('title', formData.title)}
-              placeholder='Title for this link'
-              placeholderTextColor={colors.mutedForeground}
-            />
-            {errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
-          </View>
-
-          <View style={styles.field}>
-            <Text style={styles.label}>Description</Text>
-            <TextInput
-              style={[styles.textArea, errors.description && styles.inputError]}
-              value={formData.description}
-              onChangeText={(value) => handleFieldChange('description', value)}
-              onBlur={() => handleFieldBlur('description', formData.description || '')}
-              placeholder='Description of this link'
-              placeholderTextColor={colors.mutedForeground}
-              multiline
-              numberOfLines={4}
-              textAlignVertical='top'
-            />
-            {errors.description && <Text style={styles.errorText}>{errors.description}</Text>}
+            {error && <Text style={styles.errorText}>{error}</Text>}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -252,5 +214,16 @@ const styles = StyleSheet.create({
     color: colors.destructive,
     fontSize: 14,
     marginTop: 4,
+  },
+  infoContainer: {
+    backgroundColor: colors.muted,
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 8,
+  },
+  infoText: {
+    color: colors.mutedForeground,
+    fontSize: 14,
+    lineHeight: 20,
   },
 });
