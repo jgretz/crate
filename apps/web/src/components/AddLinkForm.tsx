@@ -3,26 +3,15 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useForm} from '@tanstack/react-form';
 import {createLink} from '../services';
 import type {CreateLinkInput} from '@stashl/domain-types';
-import {createLinkSchema, type CreateLinkFormData} from '../schemas';
+import {fetchPageMetadata, normalizeUrl, isValidUrl} from '@stashl/metadata';
 import {Button} from './ui/button';
-import {FormInput, FormTextArea} from './forms';
+import {FormInput} from './forms';
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from './ui/dialog';
 import {DialogDescription} from '@radix-ui/react-dialog';
 
-// Helper function to create TanStack Form validators from Zod schema
-function createZodValidator<T>(schema: any, field: keyof T) {
-  return ({value}: {value: any}) => {
-    const result = schema.safeParse({[field]: value});
-    if (!result.success) {
-      const fieldError = result.error.issues.find((issue) => issue.path[0] === field);
-      return fieldError?.message;
-    }
-    return undefined;
-  };
-}
-
 export function AddLinkForm() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
   const queryClient = useQueryClient();
 
   const createLinkMutation = useMutation({
@@ -37,24 +26,40 @@ export function AddLinkForm() {
   const form = useForm({
     defaultValues: {
       url: '',
-      title: '',
-      description: '',
-    } as CreateLinkFormData,
+    },
     onSubmit: async ({value}) => {
-      // Convert empty description to undefined for optional field
-      const formData = {
-        ...value,
-        description: value.description?.trim() || undefined,
-      };
-
-      // Validate the entire form with Zod before submission
-      const validationResult = createLinkSchema.safeParse(formData);
-      if (!validationResult.success) {
-        // This shouldn't happen if field validation is working correctly
-        console.error('Form validation failed:', validationResult.error);
+      if (!value.url?.trim()) {
         return;
       }
-      createLinkMutation.mutate(validationResult.data as CreateLinkInput);
+
+      const normalizedUrl = normalizeUrl(value.url.trim());
+
+      if (!isValidUrl(normalizedUrl)) {
+        return;
+      }
+
+      setIsLoadingMetadata(true);
+
+      try {
+        const metadata = await fetchPageMetadata(normalizedUrl);
+
+        const linkData: CreateLinkInput = {
+          url: normalizedUrl,
+          title: metadata.title,
+          description: metadata.description,
+        };
+
+        createLinkMutation.mutate(linkData);
+      } catch (error) {
+        console.error('Error fetching metadata:', error);
+        // Fallback: create link with just URL
+        createLinkMutation.mutate({
+          url: normalizedUrl,
+          title: new URL(normalizedUrl).hostname,
+        });
+      } finally {
+        setIsLoadingMetadata(false);
+      }
     },
   });
 
@@ -80,12 +85,7 @@ export function AddLinkForm() {
               form.handleSubmit();
             }}
           >
-            <form.Field
-              name='url'
-              validators={{
-                onChange: createZodValidator<CreateLinkFormData>(createLinkSchema, 'url'),
-              }}
-            >
+            <form.Field name='url'>
               {(field) => (
                 <FormInput
                   id={field.name}
@@ -99,48 +99,6 @@ export function AddLinkForm() {
                   placeholder='https://example.com'
                   autoFocus
                   required
-                />
-              )}
-            </form.Field>
-
-            <form.Field
-              name='title'
-              validators={{
-                onChange: createZodValidator<CreateLinkFormData>(createLinkSchema, 'title'),
-              }}
-            >
-              {(field) => (
-                <FormInput
-                  id={field.name}
-                  name={field.name}
-                  label='Title'
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={field.handleChange}
-                  error={field.state.meta.errors?.[0]}
-                  placeholder='Title for this link'
-                  required
-                />
-              )}
-            </form.Field>
-
-            <form.Field
-              name='description'
-              validators={{
-                onChange: createZodValidator<CreateLinkFormData>(createLinkSchema, 'description'),
-              }}
-            >
-              {(field) => (
-                <FormTextArea
-                  id={field.name}
-                  name={field.name}
-                  label='Description'
-                  value={field.state.value || ''}
-                  onBlur={field.handleBlur}
-                  onChange={field.handleChange}
-                  error={field.state.meta.errors?.[0]}
-                  placeholder='Description of this link'
-                  rows={3}
                 />
               )}
             </form.Field>
@@ -162,10 +120,14 @@ export function AddLinkForm() {
                 {([canSubmit, isSubmitting]) => (
                   <Button
                     type='submit'
-                    disabled={!canSubmit || createLinkMutation.isPending}
+                    disabled={!canSubmit || createLinkMutation.isPending || isLoadingMetadata}
                     className='flex-1'
                   >
-                    {createLinkMutation.isPending || isSubmitting ? 'Adding...' : 'Add Link'}
+                    {isLoadingMetadata
+                      ? 'Fetching info...'
+                      : createLinkMutation.isPending || isSubmitting
+                        ? 'Adding...'
+                        : 'Add Link'}
                   </Button>
                 )}
               </form.Subscribe>

@@ -1,7 +1,7 @@
 import * as Linking from 'expo-linking';
 import * as IntentLauncher from 'expo-intent-launcher';
 import {Platform} from 'react-native';
-import {fetchPageMetadata, isValidUrl, normalizeUrl} from './metadata';
+import {fetchPageMetadata, isValidUrl, normalizeUrl} from '@stashl/metadata';
 import {createLink} from './api';
 import type {CreateLinkInput} from '@stashl/domain';
 

@@ -23,7 +23,8 @@
       "@stashl/domain": ["./packages/domain/src/index.ts"],
       "@stashl/domain-types": ["./packages/domain/src/types.ts"],
       "@stashl/email": ["./packages/email/src/index.ts"],
-      "@stashl/iocdi": ["./packages/iocdi/src/index.ts"]
+      "@stashl/iocdi": ["./packages/iocdi/src/index.ts"],
+      "@stashl/metadata": ["./packages/metadata/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "dist"]
