@@ -1,5 +1,5 @@
 # Adjust BUN_VERSION as desired
-ARG BUN_VERSION=1.1.12
+ARG BUN_VERSION=1.2.19
 FROM oven/bun:${BUN_VERSION}-slim AS base
 
 LABEL fly_launch_runtime="Bun"
@@ -19,7 +19,8 @@ COPY --link package.json tsconfig.json ./
 COPY --link packages ./packages
 COPY --link apps/web ./apps/web
 
-RUN rm apps/web/.env
+RUN rm ./apps/web/.env
+RUN mv ./apps/web/.env.production ./apps/web/.env
 
 # Install dependencies
 RUN bun install --ci
@@ -35,4 +36,4 @@ COPY --from=build /app/apps/web/.output /app/.output
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["bun", "run", ".output/server/index.mjs"]
+CMD ["bun", "run", "-r", "dotenv/config", ".output/server/index.mjs"]
