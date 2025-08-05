@@ -19,6 +19,8 @@ COPY --link package.json tsconfig.json ./
 COPY --link packages ./packages
 COPY --link apps/web ./apps/web
 
+RUN rm apps/web/.env
+
 # Install dependencies
 RUN bun install --ci
 RUN cd apps/web && bun install --ci

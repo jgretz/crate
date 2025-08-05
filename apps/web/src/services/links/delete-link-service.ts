@@ -1,4 +1,4 @@
-import {graphqlClient} from './graphql-client';
+import {graphqlClient} from '../graphql-client';
 
 const DELETE_LINK = `
   mutation DeleteLink($id: ID!) {

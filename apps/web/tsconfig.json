@@ -1,7 +1,10 @@
 {
   "extends": "../../tsconfig.json",
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
-    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
     "moduleResolution": "Bundler",
     "module": "ESNext",
     "target": "ES2022",

@@ -1,4 +1,4 @@
-import {graphqlClient} from './graphql-client';
+import {graphqlClient} from '../graphql-client';
 import type {Link} from '@stashl/domain-types';
 
 const GET_LINKS = `

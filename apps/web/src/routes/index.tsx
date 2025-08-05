@@ -15,7 +15,7 @@ function Landing() {
           <h1 className='text-3xl font-bold'>Stashl.ink</h1>
         </div>
         <p className='text-gray-600 mb-8 text-lg'>Organize and manage your links in one place</p>
-        <Link to='/login'>
+        <Link to='/list'>
           <Button size='lg' className='px-8 py-3'>
             Get Started
           </Button>

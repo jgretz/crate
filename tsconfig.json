@@ -18,7 +18,7 @@
 
     // Import paths
     "paths": {
-      "@stashl/web/*": ["./apps/web/src/*"],
+      "@web/*": ["./apps/web/src/*"],
 
       "@stashl/domain": ["./packages/domain/src/index.ts"],
       "@stashl/domain-types": ["./packages/domain/src/types.ts"],

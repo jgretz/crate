@@ -1,12 +1,18 @@
 import {useState} from 'react';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useForm} from '@tanstack/react-form';
-import {createLink} from '../services';
+import {createLink} from '@web/services';
 import type {CreateLinkInput} from '@stashl/domain-types';
 import {fetchPageMetadata, normalizeUrl, isValidUrl} from '@stashl/metadata';
-import {Button} from './ui/button';
-import {FormInput} from './forms';
-import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from './ui/dialog';
+import {Button} from '@web/components/ui/button';
+import {FormInput} from '@web/components/forms/FormInput';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@web/components/ui/dialog';
 import {DialogDescription} from '@radix-ui/react-dialog';
 
 export function AddLinkForm() {

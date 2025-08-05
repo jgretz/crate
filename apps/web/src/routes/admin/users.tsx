@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router';
-import {UsersTable} from '../../components/UsersTable';
-import {requireAuth} from '../../services/auth/requireAuth';
+import {UsersTable} from '@web/components/admin/UsersTable';
+import {requireAuth} from '@web/services/auth/requireAuth';
 
 export const Route = createFileRoute('/admin/users')({
   beforeLoad: requireAuth,

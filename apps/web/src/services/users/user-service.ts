@@ -1,4 +1,4 @@
-import {graphqlClient} from './graphql-client';
+import {graphqlClient} from '../graphql-client';
 
 const GET_USERS_QUERY = `
   query GetUsers {
@@ -73,7 +73,10 @@ export async function createUser(input: CreateUserInput): Promise<User> {
 }
 
 export async function updateUser(id: string, input: UpdateUserInput): Promise<User> {
-  const response = await graphqlClient.request<{updateUser: User}>(UPDATE_USER_MUTATION, {id, input});
+  const response = await graphqlClient.request<{updateUser: User}>(UPDATE_USER_MUTATION, {
+    id,
+    input,
+  });
   return response.updateUser;
 }
 

@@ -1,10 +1,9 @@
 import {createFileRoute, useRouter} from '@tanstack/react-router';
 import {useEffect} from 'react';
-import {LinkList} from '../components/LinkList';
-import {AddLinkForm} from '../components/AddLinkForm';
-import {requireAuth} from '../services/auth/requireAuth';
-import {isAuthenticated} from '../services/auth-service';
-import {Mascot} from '../components/Mascot';
+import {LinkList} from '@web/components/links/LinkList';
+import {AddLinkForm} from '@web/components/links/AddLinkForm';
+import {requireAuth, isAuthenticated} from '@web/services';
+import {Mascot} from '@web/components/Mascot';
 
 export const Route = createFileRoute('/list')({
   beforeLoad: requireAuth,

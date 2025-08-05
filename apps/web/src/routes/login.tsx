@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router';
-import {LoginForm} from '../components/LoginForm';
-import {Mascot} from '../components/Mascot';
+import {LoginForm} from '@web/components/auth/LoginForm';
+import {Mascot} from '@web/components/Mascot';
 
 export const Route = createFileRoute('/login')({
   component: Login,

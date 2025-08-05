@@ -2,11 +2,11 @@ import {createFileRoute, useNavigate, useSearch} from '@tanstack/react-router';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {useForm} from '@tanstack/react-form';
 import {useEffect} from 'react';
-import {validateResetToken, resetPassword} from '../services';
-import {Button} from '../components/ui/button';
-import {FormInput} from '../components/forms';
+import {validateResetToken, resetPassword} from '../../services';
+import {Button} from '../../components/ui/button';
+import {FormInput} from '../../components/forms/FormInput';
 
-export const Route = createFileRoute('/reset-password')({
+export const Route = createFileRoute('/auth/reset-password')({
   component: ResetPassword,
   validateSearch: (search: Record<string, unknown>) => ({
     token: (search.token as string) || '',
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/reset-password')({
 
 function ResetPassword() {
   const navigate = useNavigate();
-  const {token, email} = useSearch({from: '/reset-password'});
+  const {token, email} = useSearch({from: '/auth/reset-password'});
 
   const validationQuery = useQuery({
     queryKey: ['validateResetToken', token, email],
@@ -29,7 +29,10 @@ function ResetPassword() {
     mutationFn: ({newPassword}: {newPassword: string}) => resetPassword(token, email, newPassword),
     onSuccess: (data) => {
       if (data.success) {
-        navigate({to: '/login', search: {message: 'Password reset successfully. Please log in.'}});
+        navigate({
+          to: '/login',
+          search: {message: 'Password reset successfully. Please log in.'},
+        });
       }
     },
   });

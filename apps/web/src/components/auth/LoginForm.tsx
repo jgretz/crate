@@ -1,36 +1,19 @@
-import {useMutation} from '@tanstack/react-query';
 import {useForm} from '@tanstack/react-form';
 import {useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
-import {login, setAuthToken} from '../services';
-import {loginSchema, type LoginFormData} from '../schemas';
-import {Button} from './ui/button';
-import {FormInput} from './forms';
-import {ResetPasswordDialog} from './ResetPasswordDialog';
+import {login, setAuthToken} from '@web/services';
+import {loginSchema, type LoginFormData} from '@web/schemas';
 
-// Helper function to create TanStack Form validators from Zod schema
-function createZodValidator<T>(schema: any, field: keyof T) {
-  return ({value}: {value: any}) => {
-    const result = schema.safeParse({[field]: value});
-    if (!result.success) {
-      const fieldError = result.error.issues.find((issue) => issue.path[0] === field);
-      return fieldError?.message;
-    }
-    return undefined;
-  };
-}
+import {Button} from '@web/components/ui/button';
+import {FormInput} from '@web/components/forms/FormInput';
+import {createZodValidator} from '@web/components/forms/createZodValidator';
+import {ResetPasswordDialog} from '@web/components/auth/ResetPasswordDialog';
 
 export function LoginForm() {
   const navigate = useNavigate();
   const [showResetDialog, setShowResetDialog] = useState(false);
-
-  const loginMutation = useMutation({
-    mutationFn: login,
-    onSuccess: (data) => {
-      setAuthToken(data.token);
-      navigate({to: '/list'});
-    },
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -44,13 +27,28 @@ export function LoginForm() {
         console.error('Form validation failed:', validationResult.error);
         return;
       }
-      loginMutation.mutate(validationResult.data);
+
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const data = await login({
+          data: validationResult.data,
+        });
+        setAuthToken(data.token);
+        navigate({to: '/list'});
+      } catch (err) {
+        setError('Invalid email or password. Please try again.');
+        console.error('Login failed:', err);
+      } finally {
+        setIsLoading(false);
+      }
     },
   });
 
   return (
-    <div className="max-w-md mx-auto">
-      <div className="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+    <div className='max-w-md mx-auto'>
+      <div className='bg-white p-8 rounded-lg border border-gray-200 shadow-sm'>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -59,7 +57,7 @@ export function LoginForm() {
           }}
         >
           <form.Field
-            name="email"
+            name='email'
             validators={{
               onChange: createZodValidator<LoginFormData>(loginSchema, 'email'),
             }}
@@ -68,13 +66,13 @@ export function LoginForm() {
               <FormInput
                 id={field.name}
                 name={field.name}
-                label="Email"
+                label='Email'
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={field.handleChange}
                 error={field.state.meta.errors?.[0]}
-                type="email"
-                placeholder="your@email.com"
+                type='email'
+                placeholder='your@email.com'
                 autoFocus
                 required
               />
@@ -82,7 +80,7 @@ export function LoginForm() {
           </form.Field>
 
           <form.Field
-            name="password"
+            name='password'
             validators={{
               onChange: createZodValidator<LoginFormData>(loginSchema, 'password'),
             }}
@@ -91,13 +89,13 @@ export function LoginForm() {
               <FormInput
                 id={field.name}
                 name={field.name}
-                label="Password"
+                label='Password'
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={field.handleChange}
                 error={field.state.meta.errors?.[0]}
-                type="password"
-                placeholder="Your password"
+                type='password'
+                placeholder='Your password'
                 required
               />
             )}
@@ -105,37 +103,26 @@ export function LoginForm() {
 
           <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
-              <Button
-                type="submit"
-                disabled={!canSubmit || loginMutation.isPending}
-                className="w-full mt-6"
-              >
-                {loginMutation.isPending || isSubmitting ? 'Signing in...' : 'Sign in'}
+              <Button type='submit' disabled={!canSubmit || isLoading} className='w-full mt-6'>
+                {isLoading || isSubmitting ? 'Signing in...' : 'Sign in'}
               </Button>
             )}
           </form.Subscribe>
 
-          {loginMutation.error && (
-            <p className="text-red-600 text-sm mt-2 text-center">
-              Invalid email or password. Please try again.
-            </p>
-          )}
+          {error && <p className='text-red-600 text-sm mt-2 text-center'>{error}</p>}
 
-          <div className="text-center mt-4">
+          <div className='text-center mt-4'>
             <button
-              type="button"
+              type='button'
               onClick={() => setShowResetDialog(true)}
-              className="text-sm text-blue-600 hover:text-blue-800 underline"
+              className='text-sm text-blue-600 hover:text-blue-800 underline'
             >
               Forgot your password?
             </button>
           </div>
         </form>
 
-        <ResetPasswordDialog
-          open={showResetDialog}
-          onOpenChange={setShowResetDialog}
-        />
+        <ResetPasswordDialog open={showResetDialog} onOpenChange={setShowResetDialog} />
       </div>
     </div>
   );

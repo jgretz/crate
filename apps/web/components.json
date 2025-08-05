@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@stashl/web/components",
-    "utils": "@stashl/web/utils/cn",
-    "ui": "@stashl/web/components/ui",
-    "lib": "@stashl/web/lib",
-    "hooks": "@stashl/web/hooks"
+    "components": "@web/components",
+    "utils": "@web/utils/cn",
+    "ui": "@web/components/ui",
+    "lib": "@web/lib",
+    "hooks": "@web/hooks"
   },
   "iconLibrary": "lucide"
 }
